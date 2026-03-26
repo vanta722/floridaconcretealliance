@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+ <title>Free Concrete Estimate – Florida Concrete Alliance</title>
+ <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+ <style>
+ *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+ --concrete: #d4cfc8;
+ --charcoal: #1a1a1a;
+ --orange: #e8530a;
+ --orange-dark: #c44508;
+ --sand: #f5f0e8;
+ --gray: #888;
+ --border: #ccc;
+}
+
+body {
+ font-family: 'Barlow', sans-serif;
+ background: var(--charcoal);
+ min-height: 100vh;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ padding: 24px 16px;
+ background-image:
+ repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.03) 40px),
+ repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.03) 40px);
+}
+
+.card {
+ background: var(--sand);
+ max-width: 680px;
+ width: 100%;
+ border-radius: 4px;
+ overflow: hidden;
+ box-shadow: 0 20px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05);
+ animation: slideUp 0.5s ease both;
+}
+
+@keyframes slideUp {
+ from { opacity: 0; transform: translateY(30px); }
+ to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+ background: var(--charcoal);
+ padding: 32px 40px 28px;
+ border-bottom: 4px solid var(--orange);
+ position: relative;
+ overflow: hidden;
+}
+
+.header::before {
+ content: '';
+ position: absolute;
+ top: -60px; right: -60px;
+ width: 200px; height: 200px;
+ background: var(--orange);
+ opacity: 0.07;
+ border-radius: 50%;
+}
+
+.logo-row {
+ display: flex;
+ align-items: center;
+ gap: 14px;
+ margin-bottom: 18px;
+}
+
+.logo-icon {
+ width: 46px; height: 46px;
+ background: var(--orange);
+ border-radius: 3px;
+ display: flex; align-items: center; justify-content: center;
+ font-family: 'Bebas Neue', cursive;
+ font-size: 20px;
+ color: #fff;
+ letter-spacing: 1px;
+}
+
+.logo-text { line-height: 1.1; }
+
+.logo-text .main {
+ font-family: 'Bebas Neue', cursive;
+ font-size: 22px;
+ color: #fff;
+ letter-spacing: 2px;
+}
+
+.logo-text .sub {
+ font-size: 11px;
+ color: var(--gray);
+ letter-spacing: 3px;
+ text-transform: uppercase;
+}
+
+.header h1 {
+ font-family: 'Bebas Neue', cursive;
+ font-size: clamp(32px, 6vw, 48px);
+ color: #fff;
+ letter-spacing: 3px;
+ line-height: 1;
+}
+
+.header h1 span { color: var(--orange); }
+
+.header p {
+ color: #aaa;
+ font-size: 14px;
+ margin-top: 8px;
+ font-weight: 500;
+}
+
+.header .service-area {
+ font-size: 12px;
+ color: #f0a500;
+ margin-top: 6px;
+ letter-spacing: 1px;
+}
+
+.form-body { padding: 36px 40px 40px; }
+
+.section-label {
+ font-size: 11px;
+ font-weight: 700;
+ letter-spacing: 3px;
+ text-transform: uppercase;
+ color: var(--orange);
+ margin-bottom: 16px;
+ margin-top: 28px;
+ display: flex;
+ align-items: center;
+ gap: 10px;
+}
+
+.section-label::after {
+ content: '';
+ flex: 1;
+ height: 1px;
+ background: var(--border);
+}
+
+.section-label:first-of-type { margin-top: 0; }
+
+.row {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 16px;
+}
+
+@media (max-width: 520px) {
+ .row { grid-template-columns: 1fr; }
+ .form-body, .header { padding-left: 20px; padding-right: 20px; }
+}
+
+.field {
+ display: flex;
+ flex-direction: column;
+ gap: 6px;
+}
+
+.field.full { grid-column: 1 / -1; }
+
+label {
+ font-size: 12px;
+ font-weight: 700;
+ letter-spacing: 1px;
+ text-transform: uppercase;
+ color: var(--charcoal);
+}
+
+input, select, textarea {
+ font-family: 'Barlow', sans-serif;
+ font-size: 15px;
+ font-weight: 500;
+ background: #fff;
+ border: 1.5px solid var(--border);
+ border-radius: 3px;
+ padding: 11px 14px;
+ color: var(--charcoal);
+ transition: border-color 0.2s, box-shadow 0.2s;
+ outline: none;
+ width: 100%;
+ -webkit-appearance: none;
+}
+
+input:focus, select:focus, textarea:focus {
+ border-color: var(--orange);
+ box-shadow: 0 0 0 3px rgba(232,83,10,0.12);
+}
+
+select {
+ cursor: pointer;
+ background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+ background-repeat: no-repeat;
+ background-position: right 14px center;
+ padding-right: 36px;
+}
+
+textarea { resize: vertical; min-height: 100px; }
+
+.checkbox-group {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 10px;
+ margin-top: 4px;
+}
+
+@media (max-width: 420px) { .checkbox-group { grid-template-columns: 1fr; } }
+
+.check-item {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ background: #fff;
+ border: 1.5px solid var(--border);
+ border-radius: 3px;
+ padding: 10px 12px;
+ cursor: pointer;
+ transition: border-color 0.2s, background 0.2s;
+ font-size: 14px;
+ font-weight: 600;
+ color: #444;
+}
+
+.check-item:has(input:checked) {
+ border-color: var(--orange);
+ background: #fff5f0;
+ color: var(--charcoal);
+}
+
+.check-item input[type="checkbox"] {
+ width: 16px; height: 16px;
+ border: 1.5px solid var(--border);
+ border-radius: 2px;
+ accent-color: var(--orange);
+ flex-shrink: 0;
+ padding: 0;
+}
+
+.submit-btn {
+ margin-top: 28px;
+ width: 100%;
+ background: var(--orange);
+ color: #fff;
+ border: none;
+ border-radius: 3px;
+ padding: 16px;
+ font-family: 'Bebas Neue', cursive;
+ font-size: 22px;
+ letter-spacing: 3px;
+ cursor: pointer;
+ transition: background 0.2s, transform 0.1s;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 10px;
+}
+
+.submit-btn:hover { background: var(--orange-dark); }
+.submit-btn:active { transform: scale(0.99); }
+
+.disclaimer {
+ text-align: center;
+ font-size: 12px;
+ color: var(--gray);
+ margin-top: 14px;
+}
+
+.call-bar {
+ background: var(--orange);
+ text-align: center;
+ padding: 14px 20px;
+ font-family: 'Bebas Neue', cursive;
+ font-size: 20px;
+ letter-spacing: 2px;
+}
+
+.call-bar a {
+ color: #fff;
+ text-decoration: none;
+}
+
+.call-bar a:hover { text-decoration: underline; }
+
+.success-msg {
+ display: none;
+ background: #fff;
+ border: 2px solid var(--orange);
+ border-radius: 3px;
+ padding: 28px;
+ text-align: center;
+ margin-top: 20px;
+}
+
+.success-msg .check-circle {
+ width: 56px; height: 56px;
+ background: var(--orange);
+ border-radius: 50%;
+ margin: 0 auto 16px;
+ display: flex; align-items: center; justify-content: center;
+ font-size: 24px;
+}
+
+.success-msg h3 {
+ font-family: 'Bebas Neue', cursive;
+ font-size: 28px;
+ letter-spacing: 2px;
+ color: var(--charcoal);
+ margin-bottom: 8px;
+}
+
+.success-msg p { color: #666; font-size: 15px; }
+ </style>
+</head>
+<body>
+ <div class="card">
+
+ <div class="call-bar" style="display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;">
+   <a href="tel:+19048969429">&#128222; CALL NOW: (904) 896-9429</a>
+   <a href="https://www.facebook.com/share/1RirDJKCEB/?mibextid=wwXIfr" target="_blank" rel="noreferrer" style="display:inline-flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:2px;">
+     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+     FOLLOW US ON FACEBOOK
+   </a>
+ </div>
+
+ <div class="header">
+ <div class="logo-row">
+ <div class="logo-icon">FCA</div>
+ <div class="logo-text">
+ <div class="main">Florida Concrete Alliance</div>
+ <div class="sub">Licensed &middot; Insured &middot; Florida</div>
+ </div>
+ </div>
+ <h1>GET YOUR <span>FREE</span><br>CONCRETE ESTIMATE</h1>
+ <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+ <p class="service-area">&#128205; Serving Jacksonville, Middleburg, St. Augustine &amp; Northeast Florida</p>
+ </div>
+
+<div class="form-body">
+ <form
+ id="estimate-form"
+ action="https://formspree.io/f/xvzweyow"
+ method="POST"
+ >
+
+ <div class="section-label">Your Information</div>
+
+ <div class="row">
+ <div class="field">
+ <label for="first_name">First Name *</label>
+ <input type="text" id="first_name" name="first_name" placeholder="John" required />
+ </div>
+ <div class="field">
+ <label for="last_name">Last Name *</label>
+ <input type="text" id="last_name" name="last_name" placeholder="Smith" required />
+ </div>
+ </div>
+
+ <div class="row" style="margin-top:16px">
+ <div class="field">
+ <label for="email">Email Address *</label>
+ <input type="email" id="email" name="email" placeholder="john@email.com" required />
+ </div>
+ <div class="field">
+ <label for="phone">Phone Number *</label>
+ <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" required />
+ </div>
+ </div>
+
+ <div class="row" style="margin-top:16px">
+ <div class="field full">
+ <label for="address">Project Address *</label>
+ <input type="text" id="address" name="project_address" placeholder="123 Main St, City, FL 00000" required />
+ </div>
+ </div>
+
+ <div class="section-label">Project Details</div>
+
+ <div class="row">
+ <div class="field">
+ <label for="project_type">Type of Project *</label>
+ <select id="project_type" name="project_type" required>
+ <option value="" disabled selected>Select a type&hellip;</option>
+ <option>Driveway</option>
+ <option>Patio / Pool Deck</option>
+ <option>Sidewalk / Walkway</option>
+ <option>Foundation / Slab</option>
+ <option>Parking Lot</option>
+ <option>Retaining Wall</option>
+ <option>Stamped / Decorative Concrete</option>
+ <option>Concrete Repair</option>
+ <option>Other</option>
+ </select>
+ </div>
+ <div class="field">
+ <label for="sq_footage">Estimated Square Footage</label>
+ <input type="text" id="sq_footage" name="square_footage" placeholder="e.g. 500 sq ft" />
+ </div>
+ </div>
+
+ <div class="row" style="margin-top:16px">
+ <div class="field">
+ <label for="timeline">Desired Timeline</label>
+ <select id="timeline" name="timeline">
+ <option value="" disabled selected>Select timeline&hellip;</option>
+ <option>ASAP</option>
+ <option>Within 1 Month</option>
+ <option>1-3 Months</option>
+ <option>3-6 Months</option>
+ <option>Just Planning Ahead</option>
+ </select>
+ </div>
+ <div class="field">
+ <label for="property_type">Property Type</label>
+ <select id="property_type" name="property_type">
+ <option value="" disabled selected>Select&hellip;</option>
+ <option>Residential</option>
+ <option>Commercial</option>
+ <option>Industrial</option>
+ <option>HOA / Community</option>
+ </select>
+ </div>
+ </div>
+
+ <div class="section-label">Services Needed</div>
+ <div class="checkbox-group">
+ <label class="check-item">
+ <input type="checkbox" name="services" value="New Pour" /> New Pour
+ </label>
+ <label class="check-item">
+ <input type="checkbox" name="services" value="Demolition & Removal" /> Demo &amp; Removal
+ </label>
+ <label class="check-item">
+ <input type="checkbox" name="services" value="Repair / Resurfacing" /> Repair / Resurface
+ </label>
+ <label class="check-item">
+ <input type="checkbox" name="services" value="Stamped / Decorative" /> Stamped / Decorative
+ </label>
+ <label class="check-item">
+ <input type="checkbox" name="services" value="Sealing / Coating" /> Sealing / Coating
+ </label>
+ <label class="check-item">
+ <input type="checkbox" name="services" value="Not Sure" /> Not Sure Yet
+ </label>
+ </div>
+
+ <div class="section-label">Additional Details</div>
+ <div class="field">
+ <label for="message">Tell us more about your project</label>
+ <textarea id="message" name="message" placeholder="Describe your project, any special requirements, existing conditions, etc."></textarea>
+ </div>
+
+ <div class="field" style="margin-top:16px">
+ <label for="referral">How did you hear about us?</label>
+ <select id="referral" name="referral_source">
+ <option value="" disabled selected>Select&hellip;</option>
+ <option>Google Search</option>
+ <option>Facebook / Instagram</option>
+ <option>Neighbor / Friend Referral</option>
+ <option>Yard Sign</option>
+ <option>Nextdoor</option>
+ <option>Repeat Customer</option>
+ <option>Other</option>
+ </select>
+ </div>
+
+ <button type="submit" class="submit-btn">
+ &#9889; REQUEST MY FREE ESTIMATE
+ </button>
+ <p class="disclaimer">No spam. No obligations. We'll contact you within 24 hours.</p>
+ </form>
+
+ <div class="success-msg" id="success">
+ <div class="check-circle">&#10003;</div>
+ <h3>Estimate Request Sent!</h3>
+ <p>Thank you! A member of the Florida Concrete Alliance team will be in touch within 24 hours.</p>
+ </div>
+</div>
+
+ </div>
+
+ <script>
+ const form = document.getElementById('estimate-form');
+ const success = document.getElementById('success');
+
+ form.addEventListener('submit', async function(e) {
+ e.preventDefault();
+ const btn = form.querySelector('.submit-btn');
+ btn.textContent = 'SENDING...';
+ btn.disabled = true;
+
+ try {
+ const res = await fetch(form.action, {
+ method: 'POST',
+ body: new FormData(form),
+ headers: { 'Accept': 'application/json' }
+ });
+ if (res.ok) {
+ form.style.display = 'none';
+ success.style.display = 'block';
+ } else {
+ btn.textContent = '⚡ REQUEST MY FREE ESTIMATE';
+ btn.disabled = false;
+ alert('Something went wrong. Please try again or call us directly.');
+ }
+ } catch {
+ btn.textContent = '⚡ REQUEST MY FREE ESTIMATE';
+ btn.disabled = false;
+ alert('Network error. Please check your connection and try again.');
+ }
+ });
+ </script>
+
+</body>
+</html>

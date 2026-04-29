@@ -1,0 +1,2690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contractor Proposal Generator | Florida Concrete Alliance</title>
+  <meta name="description" content="Generate professional, client-ready concrete proposals in 60 seconds. Free AI-powered tool for Northeast Florida contractors." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C49A3C;
+      --gold-light: #D4AF6A;
+      --gold-dim: rgba(196,154,60,0.15);
+      --cream: #EDE8DF;
+      --cream-dim: rgba(237,232,223,0.6);
+      --black: #070707;
+      --surface: #0D0D0D;
+      --surface-2: #141414;
+      --surface-3: #1A1A1A;
+      --border: rgba(196,154,60,0.2);
+      --border-subtle: rgba(255,255,255,0.06);
+      --text-muted: rgba(237,232,223,0.45);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(7,7,7,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 14px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .nav-brand img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border-radius: 2px;
+      opacity: 0.9;
+    }
+    .nav-brand-text {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+    .nav-ctas {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .nav-phone {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--cream-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-phone:hover { color: var(--gold); }
+    .btn-tool {
+      background: transparent;
+      color: var(--gold);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      border-radius: 1px;
+      text-decoration: none;
+      border: 1px solid var(--gold);
+      transition: all 0.3s ease;
+    }
+    .btn-tool:hover { background: var(--gold-dim); }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border-radius: 1px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid var(--gold);
+    }
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--gold);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border-radius: 1px;
+      text-decoration: none;
+      border: 1px solid rgba(237,232,223,0.3);
+      transition: all 0.3s ease;
+    }
+    .btn-outline:hover {
+      border-color: var(--cream);
+      background: rgba(237,232,223,0.06);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-bg-img {
+      position: absolute;
+      inset: 0;
+      background: url('img-patio.jpg') center/cover no-repeat;
+      opacity: 0.12;
+      transform: scale(1.05);
+      transition: transform 0.1s linear;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(7,7,7,0.3) 0%,
+        rgba(7,7,7,0.1) 40%,
+        rgba(7,7,7,0.5) 80%,
+        rgba(7,7,7,1) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 24px;
+      max-width: 1000px;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .hero-eyebrow-line {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero-eyebrow-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .hero-headline {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(56px, 10vw, 120px);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -1px;
+      color: var(--cream);
+      margin-bottom: 8px;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-subline {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(40px, 7vw, 88px);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: 12px;
+      color: var(--cream-dim);
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .hero-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto 48px;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.5;
+      animation: scrollPulse 2s ease infinite;
+    }
+    .hero-scroll span {
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 0.7; transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px;
+    }
+    .stats-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(52px, 7vw, 80px);
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+    }
+    .stat-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 8px;
+      display: block;
+    }
+    .stat-divider {
+      width: 1px;
+      background: var(--border-subtle);
+      align-self: stretch;
+      display: none;
+    }
+
+    /* ─── SECTION COMMON ─── */
+    .section {
+      padding: 120px 48px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .section-tag-line { width: 30px; height: 1px; background: var(--gold); }
+    .section-tag-text {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .section-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--cream);
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+
+    /* ─── SERVICES GRID ─── */
+    .services-section { background: var(--surface); }
+    .services-layout {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .services-left { position: sticky; top: 120px; }
+    .services-desc {
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-top: 24px;
+      margin-bottom: 40px;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border-subtle);
+    }
+    .service-card {
+      background: var(--surface-2);
+      padding: 36px 32px;
+      transition: background 0.3s ease;
+      cursor: default;
+    }
+    .service-card:hover { background: var(--surface-3); }
+    .service-icon {
+      font-size: 28px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .service-name {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+    .service-desc {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+    .service-number {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 13px;
+      color: var(--gold);
+      opacity: 0.5;
+      margin-top: 20px;
+      display: block;
+    }
+
+    /* ─── GALLERY ─── */
+    .gallery-section { background: var(--black); padding: 0; }
+    .gallery-header {
+      padding: 100px 48px 60px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-rows: 420px 320px;
+      gap: 3px;
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .gallery-item.span-col { grid-row: span 2; }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      filter: brightness(0.7) saturate(0.8);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.08);
+      filter: brightness(0.85) saturate(0.9);
+    }
+    .gallery-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+    .gallery-item-label {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      font-family: 'Cormorant Garant', serif;
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--cream);
+      letter-spacing: 2px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.4s ease;
+    }
+    .gallery-item:hover .gallery-item-label {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .gallery-gold-bar {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--gold);
+      transition: width 0.5s ease;
+    }
+    .gallery-item:hover .gallery-gold-bar { width: 100%; }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials-section { background: var(--surface); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border-subtle);
+      margin-top: 64px;
+    }
+    .testimonial-card {
+      background: var(--surface-2);
+      padding: 48px 40px;
+      position: relative;
+      transition: background 0.3s;
+    }
+    .testimonial-card:hover { background: var(--surface-3); }
+    .testimonial-quote {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 64px;
+      font-weight: 300;
+      color: var(--gold);
+      opacity: 0.3;
+      line-height: 0.5;
+      margin-bottom: 24px;
+      display: block;
+    }
+    .testimonial-text {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 20px;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--cream-dim);
+      margin-bottom: 32px;
+    }
+    .testimonial-stars {
+      color: var(--gold);
+      font-size: 12px;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .testimonial-author {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .testimonial-gold-accent {
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--gold);
+      transition: height 0.5s ease;
+    }
+    .testimonial-card:hover .testimonial-gold-accent { height: 100%; }
+
+    /* ─── CRAFT SECTION ─── */
+    .craft-section {
+      background: var(--black);
+      padding: 120px 48px;
+      overflow: hidden;
+    }
+    .craft-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 100px;
+      align-items: center;
+    }
+    .craft-image-wrap {
+      position: relative;
+    }
+    .craft-image-wrap img {
+      width: 100%;
+      height: 600px;
+      object-fit: cover;
+      filter: brightness(0.75) saturate(0.7);
+    }
+    .craft-image-accent {
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 180px;
+      height: 180px;
+      border: 1px solid var(--gold);
+      opacity: 0.3;
+    }
+    .craft-image-tag {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      background: rgba(7,7,7,0.85);
+      border: 1px solid var(--border);
+      padding: 12px 20px;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      backdrop-filter: blur(10px);
+    }
+    .craft-content {}
+    .craft-pillars {
+      margin-top: 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .craft-pillar {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      gap: 28px;
+      align-items: flex-start;
+      transition: padding-left 0.3s ease;
+      cursor: default;
+    }
+    .craft-pillar:hover { padding-left: 12px; }
+    .craft-pillar:first-child { border-top: 1px solid var(--border-subtle); }
+    .craft-pillar-num {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 13px;
+      color: var(--gold);
+      opacity: 0.5;
+      flex-shrink: 0;
+      padding-top: 3px;
+    }
+    .craft-pillar-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+    .craft-pillar-desc {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    /* ─── PROPOSAL TOOL SECTION ─── */
+    .proposal-section {
+      background: var(--black);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 100px 48px;
+    }
+    .proposal-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .proposal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      margin-bottom: 28px;
+    }
+    .proposal-badge span {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .proposal-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+    .proposal-title em { font-style: italic; color: var(--gold); }
+    .proposal-desc {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      max-width: 460px;
+    }
+    .proposal-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border-subtle);
+    }
+    .proposal-feature {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background 0.2s;
+    }
+    .proposal-feature:last-child { border-bottom: none; }
+    .proposal-feature:hover { background: var(--surface-2); }
+    .proposal-feature-icon { font-size: 20px; flex-shrink: 0; }
+    .proposal-feature-text { font-size: 14px; color: var(--cream-dim); line-height: 1.5; }
+    .proposal-feature-text strong {
+      display: block;
+      color: var(--cream);
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .proposal-cta-wrap {
+      margin-top: 36px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .proposal-inner { grid-template-columns: 1fr; gap: 48px; }
+      .proposal-section { padding: 80px 24px; }
+    }
+
+    /* ─── URGENCY STRIP ─── */
+    .urgency-strip {
+      background: var(--gold);
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .urgency-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .urgency-cta {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      border-bottom: 1px solid var(--black);
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+    .urgency-cta:hover { opacity: 0.7; }
+
+    /* ─── FORM ─── */
+    .form-section { background: var(--surface); }
+    .form-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .form-left-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--cream);
+      margin-top: 32px;
+      margin-bottom: 24px;
+    }
+    .form-left-title em { font-style: italic; color: var(--gold); }
+    .form-left-desc {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+    }
+    .form-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .form-contact-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .form-contact-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .form-contact-value {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--cream);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .form-contact-value:hover { color: var(--gold); }
+
+    /* Form card */
+    .form-card {
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      padding: 52px 48px;
+    }
+    .form-card-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+    .form-card-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--surface-3);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0;
+      padding: 14px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--cream);
+      outline: none;
+      transition: border-color 0.2s ease;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--gold);
+    }
+    .form-select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C49A3C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+    .form-select option { background: var(--surface-3); color: var(--cream); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-section-divider {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 20px 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .form-section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-subtle);
+    }
+    .form-check-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .form-check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .form-check-item:has(input:checked) {
+      border-color: var(--gold);
+      background: var(--gold-dim);
+      color: var(--gold);
+    }
+    .form-check-item input {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--gold);
+      flex-shrink: 0;
+      padding: 0;
+      border: none;
+      background: none;
+    }
+    .form-submit {
+      width: 100%;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 18px 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .form-submit:hover {
+      background: var(--gold-light);
+    }
+    .form-submit:active { opacity: 0.85; }
+    .form-disclaimer {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    /* Form success */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .form-success-icon {
+      width: 64px;
+      height: 64px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 24px;
+      color: var(--gold);
+    }
+    .form-success-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+    .form-success-sub {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* ─── SERVICE AREA ─── */
+    .area-section {
+      background: var(--black);
+      padding: 80px 48px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .area-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .area-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.2;
+    }
+    .area-title em { font-style: italic; color: var(--gold); }
+    .area-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .area-pill {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s;
+    }
+    .area-pill:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 60px 48px 40px;
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 32px;
+    }
+    .footer-brand {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 260px;
+    }
+    .footer-col-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-links a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .footer-license {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* ─── MOBILE STICKY CTA ─── */
+    .mobile-sticky {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 900;
+      background: var(--gold);
+      padding: 16px 20px;
+    }
+    .mobile-sticky a {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--black);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* ─── REVEAL ANIMATIONS ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .services-layout { grid-template-columns: 1fr; gap: 48px; }
+      .services-left { position: static; }
+      .craft-layout { grid-template-columns: 1fr; gap: 60px; }
+      .craft-image-wrap img { height: 400px; }
+      .form-layout { grid-template-columns: 1fr; gap: 48px; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .area-inner { grid-template-columns: 1fr; gap: 32px; }
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+      }
+      .gallery-item.span-col { grid-row: auto; grid-column: span 2; }
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 80px 24px; }
+      nav { padding: 16px 24px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-brand-text { display: none; }
+      .nav-phone { display: none; }
+      .stats-inner { grid-template-columns: 1fr; gap: 32px; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-card { padding: 36px 24px; }
+      .gallery-header { padding: 60px 24px 40px; }
+      .gallery-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+      .gallery-item { height: 280px; }
+      .gallery-item.span-col { grid-column: auto; height: 360px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .urgency-strip { flex-direction: column; gap: 16px; text-align: center; }
+      .area-section { padding: 60px 24px; }
+      .craft-section { padding: 80px 24px; }
+      footer { padding: 48px 24px 32px; }
+      .mobile-sticky { display: block; }
+      body { padding-bottom: 60px; }
+    }
+  
+
+
+    /* ─── ESTIMATE PAGE ADDITIONS ─── */
+    body { overflow-x: hidden; }
+
+    /* Gate overlay */
+    #gate-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(7,7,7,0.97); backdrop-filter: blur(16px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px; overflow-y: auto;
+    }
+    #gate-overlay.hidden { display: none; }
+    #gate-overlay::before {
+      content: ''; position: fixed; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(196,154,60,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .gate-card {
+      position: relative; background: var(--surface); border: 1px solid var(--border);
+      max-width: 480px; width: 100%; overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+      animation: gateSlideUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes gateSlideUp {
+      from { opacity:0; transform:translateY(32px) scale(0.97); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
+    .gate-top-bar { height: 3px; background: linear-gradient(90deg, var(--gold-dark,#b88a2a) 0%, var(--gold) 100%); }
+    .gate-body { padding: 44px 44px 40px; }
+    @media (max-width:480px) { .gate-body { padding: 28px 24px; } }
+    .gate-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-dim); border: 1px solid var(--border); color: var(--gold);
+      font-size: 9px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+      padding: 6px 14px; margin-bottom: 24px;
+    }
+    .gate-badge::before { content: '⚡'; font-size: 11px; }
+    .gate-headline {
+      font-family: 'Cormorant Garant', serif; font-size: clamp(28px,5vw,38px);
+      font-weight: 300; line-height: 1.1; color: var(--cream); margin-bottom: 16px;
+    }
+    .gate-headline span { font-style: italic; color: var(--gold); }
+    .gate-subhead { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+    .gate-divider { height: 1px; background: var(--border-subtle); margin: 24px 0; }
+    .gate-field { margin-bottom: 16px; }
+    .gate-label {
+      display: block; font-size: 9px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 7px;
+    }
+    .gate-input {
+      width: 100%; background: var(--surface-3); border: 1px solid var(--border-subtle);
+      padding: 13px 15px; font-family: 'Inter', sans-serif; font-size: 14px;
+      color: var(--cream); outline: none; border-radius: 0; transition: border-color 0.2s;
+    }
+    .gate-input::placeholder { color: var(--text-muted); }
+    .gate-input:focus { border-color: var(--gold); }
+    .gate-input.error { border-color: #ef4444; }
+    .gate-submit {
+      width: 100%; background: var(--gold); color: var(--black); border: none;
+      padding: 16px 24px; font-family: 'Inter', sans-serif; font-size: 11px;
+      font-weight: 700; letter-spacing: 4px; text-transform: uppercase; cursor: pointer;
+      transition: all 0.3s; margin-top: 8px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .gate-submit:hover { background: var(--gold-light); }
+    .gate-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+    .gate-trust { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 16px; letter-spacing: 1px; }
+    .gate-social-proof { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .gate-avatars { display: flex; }
+    .gate-avatar {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--surface-3);
+      border: 2px solid var(--border); display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: var(--gold); margin-left: -8px;
+    }
+    .gate-avatar:first-child { margin-left: 0; }
+    .gate-social-text { font-size: 12px; color: var(--text-muted); }
+    .gate-social-text strong { color: var(--cream-dim); }
+    .gate-error-msg {
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+      color: #fca5a5; font-size: 13px; padding: 10px 14px; margin-top: 10px; display: none; text-align: center;
+    }
+    .gate-spinner {
+      width: 18px; height: 18px; border: 2px solid rgba(7,7,7,0.2);
+      border-top-color: var(--black); border-radius: 50%;
+      animation: spinGate 0.7s linear infinite; display: none;
+    }
+    @keyframes spinGate { to { transform: rotate(360deg); } }
+
+    /* Main content shell */
+    #main-content { padding-top: 65px; }
+
+    /* Hero — matches homepage hero style */
+    .hero {
+      position: relative; background: var(--black);
+      padding: 80px 48px 72px; text-align: center;
+      border-bottom: 1px solid var(--border-subtle); overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(196,154,60,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--gold-dim); border: 1px solid var(--border);
+      font-size: 9px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); padding: 7px 18px; margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garant', serif; font-size: clamp(40px,7vw,72px);
+      font-weight: 300; line-height: 1.0; color: var(--cream); margin-bottom: 20px;
+    }
+    .hero h1 span { font-style: italic; color: var(--gold); }
+    .hero p { font-size: 15px; color: var(--text-muted); line-height: 1.8; max-width: 500px; margin: 0 auto 32px; }
+    .hero-trust { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; }
+    .hero-trust span {
+      font-size: 12px; font-weight: 600; letter-spacing: 1px; color: var(--cream-dim);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hero-trust span::before { content: '✓'; color: var(--gold); }
+
+    /* Form section */
+    .form-section { background: var(--surface); padding: 64px 48px; }
+    .form-card { max-width: 1100px; margin: 0 auto; background: var(--surface-2); border: 1px solid var(--border-subtle); }
+    .form-card-head { background: var(--surface); border-bottom: 1px solid var(--border); padding: 28px 40px 24px; }
+    .form-card-head h2 {
+      font-family: 'Cormorant Garant', serif; font-size: 28px; font-weight: 400;
+      color: var(--cream); margin-bottom: 4px;
+    }
+    .form-card-head h2 span { font-style: italic; color: var(--gold); }
+    .form-card-head p { font-size: 13px; color: var(--text-muted); }
+    .form-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-subtle); }
+    .form-col { background: var(--surface-2); padding: 36px 40px; }
+    .form-col-label {
+      font-size: 9px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 28px; display: flex; align-items: center; gap: 12px;
+    }
+    .form-col-label::after { content: ''; flex: 1; height: 1px; background: var(--border-subtle); }
+    .field-group { margin-bottom: 18px; }
+    .field-label {
+      display: block; font-size: 9px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--text-muted); margin-bottom: 7px;
+    }
+    .opt { opacity: 0.5; font-size: 8px; }
+    .form-section input[type=text], .form-section input[type=email],
+    .form-section input[type=tel], .form-section input[type=number],
+    .form-section input[type=date], .form-section select, .form-section textarea,
+    #proposal-form input, #proposal-form select, #proposal-form textarea {
+      width: 100%; background: var(--surface-3); border: 1px solid var(--border-subtle);
+      padding: 12px 14px; font-family: 'Inter', sans-serif; font-size: 14px;
+      color: var(--cream); outline: none; border-radius: 0; transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    #proposal-form input::placeholder, #proposal-form textarea::placeholder { color: var(--text-muted); }
+    #proposal-form input:focus, #proposal-form select:focus, #proposal-form textarea:focus { border-color: var(--gold); }
+    #proposal-form select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C49A3C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+    }
+    #proposal-form select option { background: var(--surface-3); color: var(--cream); }
+    input.field-error, select.field-error { border-color: #ef4444 !important; }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-footer { background: var(--surface); border-top: 1px solid var(--border-subtle); padding: 28px 40px; text-align: center; }
+    .submit-btn {
+      background: var(--gold); color: var(--black); border: none;
+      padding: 18px 56px; font-family: 'Inter', sans-serif; font-size: 11px;
+      font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .submit-btn:hover { background: var(--gold-light); }
+    .submit-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+    .form-disclaimer { font-size: 12px; color: var(--text-muted); margin-top: 12px; }
+
+    /* Usage badge */
+    .usage-badge { text-align: center; padding: 10px 16px; font-size: 12px; font-weight: 600; margin-bottom: 16px; border: 1px solid var(--border); letter-spacing: 1px; }
+    .usage-badge.ok { color: var(--gold); }
+    .usage-badge.warn { color: var(--gold); border-color: rgba(196,154,60,0.4); }
+    .usage-badge.pro { color: #22c55e; border-color: rgba(34,197,94,0.3); }
+
+    /* Logo upload */
+    .logo-upload-area { border: 1px dashed var(--border); background: var(--surface-3); padding: 16px; cursor: pointer; transition: border-color 0.2s; text-align: center; }
+    .logo-upload-area:hover { border-color: var(--gold); }
+    #removeLogo { background: none; border: 1px solid rgba(239,68,68,0.4); color: #ef4444; padding: 4px 10px; font-size: 11px; cursor: pointer; }
+    #removeLogo:hover { background: rgba(239,68,68,0.1); }
+
+    /* Payment options */
+    .pay-opt {
+      background: var(--surface-3); border: 1px solid var(--border-subtle); color: var(--text-muted);
+      padding: 8px 16px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; letter-spacing: 1px; border-radius: 0;
+    }
+    .pay-opt.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+    .pay-opt:hover:not(.active) { color: var(--cream-dim); border-color: var(--border); }
+
+    /* Loading */
+    .loading-wrap { display: none; text-align: center; padding: 80px 24px; max-width: 820px; margin: 0 auto; }
+    .spinner { width: 48px; height: 48px; border: 3px solid var(--border-subtle); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 24px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-wrap h3 { font-family: 'Cormorant Garant', serif; font-size: 28px; font-weight: 300; color: var(--cream); margin-bottom: 8px; }
+    .loading-wrap p { color: var(--text-muted); font-size: 14px; }
+    .loading-steps { display: flex; justify-content: center; gap: 24px; margin-top: 24px; flex-wrap: wrap; }
+    .loading-step { font-size: 11px; color: var(--text-muted); font-weight: 600; letter-spacing: 2px; }
+    .loading-step.active { color: var(--gold); }
+
+    /* Error */
+    .error-wrap { display: none; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); padding: 28px; max-width: 820px; margin: 0 auto; text-align: center; }
+    .error-wrap p { color: #fca5a5; font-size: 15px; font-weight: 600; }
+    .error-wrap button { margin-top: 16px; background: var(--surface-2); color: var(--cream); border: 1px solid var(--border-subtle); padding: 12px 28px; font-family: 'Inter', sans-serif; font-size: 13px; cursor: pointer; }
+
+    /* Breakdown */
+    .breakdown-section { display: none; padding: 64px 48px; background: var(--black); }
+    .breakdown-inner { max-width: 960px; margin: 0 auto; }
+    .breakdown-top-label { font-size: 9px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 10px; }
+    .breakdown-title { font-family: 'Cormorant Garant', serif; font-size: clamp(32px,5vw,52px); font-weight: 300; color: var(--cream); text-align: center; margin-bottom: 40px; }
+    .breakdown-card { background: var(--surface); border: 1px solid var(--border-subtle); overflow: hidden; margin-bottom: 16px; }
+    .breakdown-card-head { background: var(--surface-2); border-bottom: 2px solid var(--gold); padding: 22px 32px; }
+    .breakdown-card-head h3 { font-family: 'Cormorant Garant', serif; font-size: 24px; font-weight: 400; color: var(--cream); margin-bottom: 4px; }
+    .breakdown-card-head p { color: var(--text-muted); font-size: 13px; }
+    .breakdown-table-wrap { overflow-x: auto; }
+    .breakdown-table { width: 100%; border-collapse: collapse; min-width: 560px; }
+    .breakdown-table thead tr { background: var(--surface-3); border-bottom: 1px solid var(--border); }
+    .breakdown-table thead th { padding: 10px 12px; text-align: left; font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); }
+    .breakdown-table thead th:nth-child(3), .breakdown-table thead th:nth-child(4), .breakdown-table thead th:nth-child(5) { text-align: right; }
+    .breakdown-table tbody tr { border-bottom: 1px solid var(--border-subtle); }
+    .breakdown-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+    .breakdown-table td { padding: 8px 10px; vertical-align: middle; }
+    .bd-check { width: 15px; height: 15px; cursor: pointer; accent-color: var(--gold); display: block; margin: auto; }
+    .bd-input { background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); padding: 6px 10px; color: var(--cream); font-family: 'Inter', sans-serif; font-size: 13px; width: 100%; outline: none; transition: border-color 0.2s; }
+    .bd-input:focus { border-color: var(--gold); }
+    .bd-cost-wrap { display: flex; align-items: center; gap: 4px; }
+    .bd-dollar { font-size: 11px; color: var(--text-muted); flex-shrink: 0; }
+    .bd-unitcost { text-align: right; -moz-appearance: textfield; }
+    .bd-unitcost::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .bd-total-cell { font-size: 13px; font-weight: 700; color: var(--gold); text-align: right; white-space: nowrap; padding-right: 12px; }
+    .bd-remove-btn { background: none; border: none; color: rgba(239,68,68,0.5); font-size: 14px; cursor: pointer; padding: 4px 8px; transition: color 0.2s; line-height: 1; display: block; margin: auto; }
+    .bd-remove-btn:hover { color: #ef4444; }
+    .bd-row-excluded .bd-desc, .bd-row-excluded .bd-qty, .bd-row-excluded .bd-cost-wrap, .bd-row-excluded .bd-total-cell { opacity: 0.3; }
+    .breakdown-add { padding: 12px 16px; border-top: 1px solid var(--border-subtle); }
+    .add-line-btn { background: var(--gold-dim); border: 1px dashed var(--border); color: var(--gold); padding: 8px 18px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; }
+    .add-line-btn:hover { border-color: var(--gold); }
+    .breakdown-totals { border-top: 1px solid var(--border); padding: 20px 24px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+    .totals-row { display: flex; gap: 40px; font-size: 14px; color: var(--text-muted); align-items: baseline; min-width: 280px; justify-content: space-between; }
+    .totals-row span:last-child { font-weight: 700; color: var(--cream); min-width: 90px; text-align: right; }
+    .totals-row.total-row { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 4px; }
+    .totals-row.total-row span:first-child { font-family: 'Cormorant Garant', serif; font-size: 20px; color: var(--cream); }
+    .totals-row.total-row span:last-child { font-family: 'Cormorant Garant', serif; font-size: 28px; color: var(--gold); }
+    .generate-pdf-btn { width: 100%; background: var(--gold); color: var(--black); border: none; padding: 20px 24px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: all 0.3s; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .generate-pdf-btn:hover { background: var(--gold-light); }
+    .generate-pdf-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+    .back-to-form-btn { width: 100%; background: transparent; color: var(--text-muted); border: 1px solid var(--border-subtle); padding: 14px; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .back-to-form-btn:hover { border-color: var(--cream); color: var(--cream); }
+
+    /* Results */
+    .results-section { display: none; padding: 64px 48px; background: var(--black); }
+    .results-inner { max-width: 820px; margin: 0 auto; }
+    .results-top-label { font-size: 9px; font-weight: 700; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 10px; }
+    .results-title { font-family: 'Cormorant Garant', serif; font-size: clamp(32px,5vw,52px); font-weight: 300; color: var(--cream); text-align: center; margin-bottom: 36px; }
+    .summary-card { background: var(--surface); border: 1px solid var(--border); padding: 32px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 20px; text-align: center; }
+    .summary-item .si-label { font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    .summary-item .si-value { font-family: 'Cormorant Garant', serif; font-size: clamp(24px,4vw,36px); color: var(--gold); line-height: 1; }
+    .summary-item .si-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .download-btn { display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; background: var(--gold); color: var(--black); border: none; padding: 20px 24px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: all 0.3s; margin-bottom: 12px; text-decoration: none; }
+    .download-btn:hover { background: var(--gold-light); }
+    .email-notice { background: var(--gold-dim); border: 1px solid var(--border); padding: 12px 16px; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; text-align: center; }
+    .email-notice strong { color: var(--cream); }
+    .generate-another-btn { width: 100%; background: transparent; color: var(--text-muted); border: 1px solid var(--border-subtle); padding: 14px; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .generate-another-btn:hover { border-color: var(--cream); color: var(--cream); }
+
+    /* How it works */
+    .how-section { background: var(--surface); padding: 80px 48px; text-align: center; border-top: 1px solid var(--border-subtle); }
+    .how-section h2 { font-family: 'Cormorant Garant', serif; font-size: clamp(28px,4vw,44px); font-weight: 300; color: var(--cream); margin-bottom: 8px; }
+    .how-section .sub { color: var(--text-muted); font-size: 14px; margin-bottom: 48px; }
+    .how-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; max-width: 800px; margin: 0 auto; background: var(--border-subtle); }
+    @media (max-width:600px) { .how-steps { grid-template-columns: 1fr; } }
+    .how-step { background: var(--surface-2); padding: 36px 28px; position: relative; }
+    .how-step::before { content: attr(data-step); position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--black); font-family: 'Cormorant Garant', serif; font-size: 16px; font-weight: 600; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .how-step-icon { font-size: 28px; margin-bottom: 16px; }
+    .how-step h3 { font-family: 'Cormorant Garant', serif; font-size: 20px; color: var(--cream); margin-bottom: 8px; }
+    .how-step p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* Trust bar */
+    .trust-bar { background: var(--surface-2); border-top: 1px solid var(--border); padding: 20px 48px; display: flex; justify-content: center; gap: 36px; flex-wrap: wrap; }
+    .trust-bar span { color: var(--cream-dim); font-size: 13px; letter-spacing: 1px; }
+    .trust-bar span::before { content: '✓ '; color: var(--gold); }
+
+    /* Footer */
+    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 40px 48px; text-align: center; }
+    .footer-logo { font-family: 'Cormorant Garant', serif; font-size: 20px; font-weight: 400; letter-spacing: 4px; text-transform: uppercase; color: var(--cream); margin-bottom: 8px; }
+    .footer-sub { color: var(--text-muted); font-size: 12px; margin-bottom: 16px; letter-spacing: 1px; }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+    .footer-links a { color: var(--gold); font-size: 13px; text-decoration: none; transition: opacity 0.2s; }
+    .footer-links a:hover { opacity: 0.7; }
+    .footer-copy { color: var(--text-muted); font-size: 11px; letter-spacing: 1px; }
+
+    /* Upgrade modal */
+    #upgrade-modal-overlay { position: fixed; inset: 0; z-index: 9998; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 24px; }
+    #upgrade-modal-overlay.visible { display: flex; }
+    .upgrade-modal-card { background: var(--surface); border: 1px solid var(--border); max-width: 460px; width: 100%; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.8); animation: gateSlideUp 0.4s cubic-bezier(0.16,1,0.3,1) both; }
+    .upgrade-modal-top { height: 3px; background: linear-gradient(90deg, #b88a2a 0%, var(--gold) 100%); }
+    .upgrade-modal-body { padding: 40px; text-align: center; }
+    .upgrade-modal-icon { font-size: 36px; margin-bottom: 16px; }
+    .upgrade-modal-title { font-family: 'Cormorant Garant', serif; font-size: 32px; font-weight: 300; color: var(--cream); margin-bottom: 10px; }
+    .upgrade-modal-sub { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; }
+    .upgrade-feature-list { list-style: none; text-align: left; margin: 0 0 20px; padding: 0; }
+    .upgrade-feature-list li { font-size: 13px; color: var(--cream-dim); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+    .upgrade-price { font-family: 'Cormorant Garant', serif; font-size: 32px; color: var(--gold); margin-bottom: 20px; }
+    .upgrade-now-btn { width: 100%; background: var(--gold); color: var(--black); border: none; padding: 16px; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; margin-bottom: 12px; }
+    .upgrade-now-btn:hover { background: var(--gold-light); }
+    .upgrade-maybe-later { background: none; border: none; color: var(--text-muted); font-size: 12px; cursor: pointer; text-decoration: underline; }
+    .upgrade-nav-link { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--gold); background: var(--gold-dim); border: 1px solid var(--border); padding: 8px 16px; cursor: pointer; transition: all 0.2s; text-transform: uppercase; }
+    .upgrade-nav-link:hover { background: rgba(196,154,60,0.2); }
+
+    /* Share link */
+    .share-link-box { background: var(--surface-3); border: 1px solid var(--border-subtle); padding: 16px 20px; margin: 12px 0; }
+    #share-link-input { width: 100%; background: none; border: none; color: var(--gold); font-size: 13px; outline: none; font-family: 'Inter', sans-serif; }
+
+    /* History */
+    #historyPanel { max-width: 820px; margin: 24px auto 0; }
+
+    /* Animations */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    .fade-up { animation: fadeUp 0.5s ease both; }
+
+    /* Responsive */
+    @media (max-width:900px) {
+      .form-cols { grid-template-columns: 1fr; }
+      .form-section, .breakdown-section, .results-section, .how-section { padding: 48px 24px; }
+      .form-card-head, .form-col, .form-footer { padding-left: 24px; padding-right: 24px; }
+      footer, .trust-bar { padding-left: 24px; padding-right: 24px; }
+    }
+    @media (max-width:640px) { .row-2 { grid-template-columns: 1fr; } .how-steps { grid-template-columns: 1fr; } }
+  
+    /* ─── ESTIMATE PAGE: override homepage hero height ─── */
+    .hero {
+      height: auto !important;
+      min-height: 0 !important;
+      padding: 80px 48px 72px !important;
+    }
+    .hero::before {
+      background: radial-gradient(ellipse at 50% 0%, rgba(196,154,60,0.07) 0%, transparent 65%) !important;
+    }
+    #hero-canvas { display: none !important; }
+    .hero-bg-img { display: none !important; }
+    .hero-overlay { display: none !important; }
+    .hero-scroll { display: none !important; }
+
+    /* estimate hero inner */
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 700px; margin: 0 auto; text-align: center;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garant', serif !important;
+      font-size: clamp(40px, 7vw, 72px) !important;
+      font-weight: 300 !important;
+      line-height: 1.0 !important;
+      color: var(--cream) !important;
+      margin-bottom: 20px !important;
+    }
+    .hero h1 span { font-style: italic; color: var(--gold); }
+
+    /* #main-content padding for fixed nav */
+    #main-content { padding-top: 65px; }
+
+  </style>
+</head>
+<body>
+
+
+
+  <!-- ══════════════════════════════════════════════════
+       EMAIL GATE OVERLAY
+  ══════════════════════════════════════════════════ -->
+    <!-- NAV — matches homepage exactly -->
+  <nav id="nav">
+    <a href="/" class="nav-brand">
+      <img src="fca-logo.jpg" alt="Florida Concrete Alliance" />
+      <span class="nav-brand-text">Florida Concrete Alliance</span>
+    </a>
+    <div class="nav-ctas">
+      <a href="tel:+19048969429" class="nav-phone">(904) 896-9429</a>
+      <span class="btn-tool" style="cursor:default; pointer-events:none;">Proposal Tool</span>
+      <a href="/" class="btn-outline">← Back to Site</a>
+    </div>
+  </nav>
+
+  <div id="gate-overlay">
+    <div class="gate-card">
+      <div class="gate-top-bar"></div>
+      <div class="gate-body">
+
+        <div class="gate-badge">FREE CONTRACTOR TOOL</div>
+
+        <h1 class="gate-headline">
+          Free Contractor<br><span>Proposal Generator</span>
+        </h1>
+
+        <p class="gate-subhead">
+          Join 100+ Northeast Florida contractors using AI to win more bids.
+          Get instant access - no credit card required.
+        </p>
+
+        <div class="gate-social-proof">
+          <div class="gate-avatars">
+            <div class="gate-avatar">JR</div>
+            <div class="gate-avatar">MT</div>
+            <div class="gate-avatar">SC</div>
+            <div class="gate-avatar" style="background:var(--gold-dim);border:1px solid var(--border);font-size:10px;">+97</div>
+          </div>
+          <div class="gate-social-text">
+            <strong>100+ contractors</strong> already generating proposals
+          </div>
+        </div>
+
+        <div class="gate-divider"></div>
+
+        <form id="gate-form" novalidate>
+          <div class="gate-field">
+            <label class="gate-label" for="gate-name">First Name *</label>
+            <input class="gate-input" type="text" id="gate-name" placeholder="John" autocomplete="given-name"/>
+          </div>
+          <div class="gate-field">
+            <label class="gate-label" for="gate-email">Email Address *</label>
+            <input class="gate-input" type="email" id="gate-email" placeholder="john@concretecompany.com" autocomplete="email"/>
+          </div>
+          <div class="gate-field">
+            <label class="gate-label" for="gate-company">Company Name <span style="opacity:.5;font-size:9px;">(optional)</span></label>
+            <input class="gate-input" type="text" id="gate-company" placeholder="Smith Concrete LLC" autocomplete="organization"/>
+          </div>
+
+          <button type="submit" class="gate-submit" id="gate-submit-btn">
+            <span id="gate-btn-text">Get Free Access →</span>
+            <div class="gate-spinner" id="gate-spinner"></div>
+          </button>
+
+          <div class="gate-error-msg" id="gate-error"></div>
+        </form>
+
+        <p class="gate-trust">🔒 We don't spam. Unsubscribe anytime.</p>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════════════════ -->
+  <div id="main-content">
+
+    <!-- nav moved to top level -->
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-inner fade-up">
+        <div class="hero-badge">⚡ AI-POWERED · CONTRACTOR-READY</div>
+        <h1>Generate a <em>client-ready</em><br>proposal in 60 seconds.</h1>
+        <p>Professional concrete proposals - powered by AI. Built for contractors. Fill in the job details and get a downloadable PDF ready to hand your client.</p>
+        <div class="hero-trust">
+          <span>✓ AI-written scope of work</span>
+          <span>✓ PDF with signature lines</span>
+          <span>✓ Emailed directly to you</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORM SECTION -->
+    <section class="form-section" id="proposal-form-section">
+      <div class="form-card fade-up">
+        <div class="form-card-head">
+          <h2>Build Your <em>Proposal</em></h2>
+          <p>📍 Fill in both columns - your proposal generates in under 60 seconds</p>
+        </div>
+
+        <form id="proposal-form" novalidate onsubmit="return false">
+          <div class="form-cols">
+
+            <!-- LEFT: Contractor + Client info -->
+            <div class="form-col">
+              <div class="form-col-label">Contractor &amp; Client</div>
+
+              <div class="field-group">
+                <label class="field-label" for="contractorName">Contractor / Company Name *</label>
+                <input type="text" id="contractorName" name="contractorName" value="Florida Concrete Alliance" required/>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="contractorEmail">Contractor Email *</label>
+                <input type="email" id="contractorEmail" name="contractorEmail" placeholder="you@yourcompany.com" required/>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Company Logo <span class="opt">(optional)</span></label>
+                <div class="logo-upload-area" id="logoUploadArea">
+                  <p id="logoStatus" style="font-size:13px;color:var(--gold);font-weight:700;margin-bottom:8px;min-height:18px"></p>
+                  <img id="logoImg" style="max-height:60px;max-width:160px;object-fit:contain;display:none;margin:0 auto 8px;border-radius:4px" alt="Logo">
+                  <input type="file" id="logoFile" accept="image/*"
+                    style="display:block;width:100%;padding:10px 0;cursor:pointer;font-size:14px;color:var(--gold);font-weight:600">
+                  <p style="font-size:11px;color:#888;margin-top:6px">PNG, JPG — appears on your PDF</p>
+                  <button type="button" id="removeLogo" style="display:none;margin-top:8px">✕ Remove Logo</button>
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="clientName">Client Name *</label>
+                <input type="text" id="clientName" name="clientName" placeholder="Jane Homeowner" required/>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="clientAddress">Client Address *</label>
+                <input type="text" id="clientAddress" name="clientAddress" placeholder="123 Main St, Jacksonville FL 32256" required/>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="clientPhone">Client Phone <span class="opt">(optional)</span></label>
+                <input type="tel" id="clientPhone" name="clientPhone" placeholder="(904) 555-0100"/>
+              </div>
+            </div>
+
+            <!-- RIGHT: Job specs -->
+            <div class="form-col">
+              <div class="form-col-label">Job Details</div>
+
+              <div class="field-group">
+                <label class="field-label" for="jobType">Job Type *</label>
+                <select id="jobType" name="jobType" required>
+                  <option value="" disabled selected>Select job type...</option>
+                  <option>Driveway</option>
+                  <option>Patio/Deck</option>
+                  <option>Walkway</option>
+                  <option>Slab/Foundation</option>
+                  <option>Stamped Decorative</option>
+                  <option>Pool Deck</option>
+                  <option>Steps</option>
+                  <option>Retaining Wall</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="row-2">
+                <div class="field-group">
+                  <label class="field-label" for="width">Width (ft) *</label>
+                  <input type="number" id="width" name="width" placeholder="20" min="1" max="500" required/>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="length">Length (ft) *</label>
+                  <input type="number" id="length" name="length" placeholder="40" min="1" max="1000" required/>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="thickness">Thickness *</label>
+                <select id="thickness" name="thickness" required>
+                  <option value="" disabled selected>Select...</option>
+                  <option value="3.5">3.5" - Light walkway</option>
+                  <option value="4">4" - Standard (patio/driveway)</option>
+                  <option value="5">5" - Heavy driveway</option>
+                  <option value="6">6" - Commercial / slab</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="finishType">Finish Type *</label>
+                <select id="finishType" name="finishType" required>
+                  <option value="" disabled selected>Select finish...</option>
+                  <option>Broom Finish</option>
+                  <option>Exposed Aggregate</option>
+                  <option>Stamped/Decorative</option>
+                  <option>Smooth Trowel</option>
+                  <option>Salt Finish</option>
+                </select>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="markup">Markup %</label>
+                <input type="number" id="markup" name="markup" value="20" min="0" max="100"/>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label">Payment Schedule</label>
+                <div id="paymentScheduleOptions" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                  <button type="button" class="pay-opt active" data-schedule="50-50" onclick="setPaySchedule('50-50')">50 / 50</button>
+                  <button type="button" class="pay-opt" data-schedule="33-33-33" onclick="setPaySchedule('33-33-33')">⅓ / ⅓ / ⅓</button>
+                  <button type="button" class="pay-opt" data-schedule="custom" onclick="setPaySchedule('custom')">Custom</button>
+                </div>
+                <div id="customDepositInput" style="display:none;">
+                  <input type="number" id="deposit" min="1" max="99" value="50" placeholder="Deposit %" style="width:120px;">
+                  <span style="color:#888; font-size:12px; margin-left:8px;">% deposit at signing</span>
+                </div>
+                <input type="hidden" id="paymentSchedule" value="50-50">
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="startDate">Estimated Start Date</label>
+                <input type="date" id="startDate" name="startDate"/>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="notes">Notes / Special Requirements <span class="opt">(optional)</span></label>
+                <textarea id="notes" name="notes" placeholder="e.g. color hardener, saw cuts, specific pattern..."></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="form-footer">
+            <button type="button" class="submit-btn" id="submit-btn" onclick="handlePreviewSubmit(event)">
+              Preview Breakdown →
+            </button>
+            <p class="form-disclaimer">AI builds the scope of work + PDF. You get an email copy instantly.</p>
+          </div>
+        </form>
+
+        <!-- Loading -->
+        <div class="loading-wrap" id="loading-wrap">
+          <div class="spinner"></div>
+          <h3 id="loading-title">Building Your Proposal...</h3>
+          <p id="loading-sub">AI is writing scope of work, calculating pricing, generating PDF</p>
+          <div class="loading-steps" id="loading-steps-row">
+            <span class="loading-step active" id="step-1">⚙ Calculating pricing</span>
+            <span class="loading-step" id="step-2">✍ Writing scope of work</span>
+            <span class="loading-step" id="step-3">📄 Generating PDF</span>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div class="error-wrap" id="error-wrap">
+          <p id="error-msg">Something went wrong. Please try again.</p>
+          <button onclick="resetForm()">← Try Again</button>
+        </div>
+
+      </div><!-- /form-card -->
+
+      <!-- Recent Proposals History Panel -->
+      <div id="historyPanel" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <p style="color:#D4A843; font-weight:700; font-size:13px; text-transform:uppercase; letter-spacing:2px; margin:0;">📋 Recent Proposals</p>
+          <button id="clearHistory" style="background:none; border:none; color:#666; font-size:12px; cursor:pointer;">Clear All</button>
+        </div>
+        <div id="historyList"></div>
+      </div>
+
+    </section>
+
+    <!-- RESULTS SECTION -->
+    <section class="results-section" id="results-section">
+      <div class="results-inner fade-up">
+        <p class="results-top-label">Proposal Ready</p>
+        <h2 class="results-title">YOUR PROPOSAL IS READY</h2>
+
+        <!-- Email notice -->
+        <div class="email-notice">
+          ✉️ A copy has been emailed to <strong id="result-email-addr"></strong>
+        </div>
+
+        <!-- Summary card -->
+        <div class="summary-card" id="summary-card">
+          <div class="summary-item">
+            <div class="si-label">Job Type</div>
+            <div class="si-value" id="r-jobtype" style="font-size:20px;">-</div>
+          </div>
+          <div class="summary-item">
+            <div class="si-label">Area</div>
+            <div class="si-value" id="r-sqft">-</div>
+            <div class="si-sub">sq ft</div>
+          </div>
+          <div class="summary-item">
+            <div class="si-label">Total Price</div>
+            <div class="si-value" id="r-total">-</div>
+          </div>
+          <div class="summary-item">
+            <div class="si-label">Deposit Due</div>
+            <div class="si-value" id="r-deposit">-</div>
+            <div class="si-sub" id="r-deposit-pct">at signing</div>
+          </div>
+        </div>
+
+        <!-- Share link — HERO -->
+        <div id="share-link-box" style="display:none;margin-top:20px;background:linear-gradient(135deg,rgba(212,168,67,.15),rgba(212,168,67,.05));border:2px solid #D4A843;border-radius:12px;padding:20px">
+          <p style="font-size:11px;font-weight:800;color:#D4A843;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px">🔗 Client Share Link</p>
+          <p style="font-size:13px;color:rgba(245,236,215,.8);margin-bottom:14px;line-height:1.5">Send this link to your client. They can view the full proposal and pay the deposit online — no PDF needed.</p>
+          <div style="background:rgba(0,0,0,.4);border-radius:8px;padding:12px 14px;margin-bottom:12px;word-break:break-all;font-family:monospace;font-size:13px;color:#D4A843;letter-spacing:.3px" id="share-link-display"></div>
+          <input id="share-link-input" readonly type="text" style="position:absolute;opacity:0;pointer-events:none" />
+          <button onclick="copyShareLink()" id="copy-btn" style="width:100%;background:#D4A843;color:#1a1a1a;border:none;border-radius:8px;padding:14px;font-weight:900;font-size:16px;cursor:pointer;letter-spacing:.5px">📋 COPY CLIENT LINK</button>
+        </div>
+
+        <!-- Download button -->
+        <button class="download-btn" id="download-btn" onclick="downloadPDF()" style="margin-top:14px">
+          ⬇ Download PDF Proposal
+        </button>
+
+        <!-- Back to tool + new proposal -->
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button onclick="resetForm()" style="flex:1;background:transparent;border:1.5px solid rgba(245,236,215,.3);color:rgba(245,236,215,.8);border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">
+            ↺ New Proposal
+          </button>
+          <a href="/estimate.html" style="flex:1;display:flex;align-items:center;justify-content:center;background:transparent;border:1.5px solid rgba(245,236,215,.3);color:rgba(245,236,215,.8);border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;text-decoration:none;text-align:center">
+            ← Back to Tool
+          </a>
+        </div>
+
+        <!-- Scope preview -->
+        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(245,236,215,.1);border-radius:4px;padding:20px 24px;margin-top:20px;">
+          <div style="font-size:10px;color:var(--gold);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">AI-Written Scope of Work</div>
+          <p id="r-scope" style="font-size:14px;color:rgba(245,236,215,.65);line-height:1.7;">-</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- BREAKDOWN SECTION -->
+    <section class="breakdown-section" id="breakdown-section">
+      <div class="breakdown-inner fade-up">
+        <p class="breakdown-top-label">Step 2 of 2 - Review &amp; Edit</p>
+        <h2 class="breakdown-title">ITEMIZED BREAKDOWN</h2>
+
+        <div class="breakdown-card">
+          <div class="breakdown-card-head">
+            <h3>EDIT LINE ITEMS</h3>
+            <p>Check, uncheck, edit values, or add custom rows - then generate your proposal PDF</p>
+          </div>
+
+          <div class="breakdown-table-wrap">
+            <table class="breakdown-table">
+              <thead>
+                <tr>
+                  <th style="width:32px"></th>
+                  <th>Description</th>
+                  <th style="width:110px;text-align:right">Qty</th>
+                  <th style="width:120px;text-align:right">Unit Cost</th>
+                  <th style="width:100px;text-align:right">Total</th>
+                  <th style="width:36px"></th>
+                </tr>
+              </thead>
+              <tbody id="breakdown-tbody"></tbody>
+            </table>
+          </div>
+
+          <div class="breakdown-add">
+            <button type="button" class="add-line-btn" id="add-line-btn">+ Add Line Item</button>
+          </div>
+
+          <div class="breakdown-totals">
+            <div class="totals-row"><span>Subtotal</span><span id="t-subtotal">$0</span></div>
+            <div class="totals-row"><span id="t-markup-label">Markup (20%)</span><span id="t-markup">$0</span></div>
+            <div class="totals-row total-row"><span>TOTAL</span><span id="t-total">$0</span></div>
+            <div class="totals-row"><span id="t-deposit-label">Deposit (50%)</span><span id="t-deposit">$0</span></div>
+          </div>
+        </div>
+
+        <div id="usage-badge" class="usage-badge ok"></div>
+        <button class="generate-pdf-btn" id="generate-pdf-btn">
+          📄 Generate PDF Proposal →
+        </button>
+        <button class="back-to-form-btn" onclick="resetForm()">
+          ← Edit Job Details
+        </button>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-section">
+      <h2>HOW IT WORKS</h2>
+      <p class="sub">Three steps. Under 60 seconds. Client-ready output.</p>
+      <div class="how-steps">
+        <div class="how-step" data-step="1">
+          <div class="how-step-icon">📋</div>
+          <h3>Fill In Job Details</h3>
+          <p>Enter your contractor info, client details, job specs, and markup percentage.</p>
+        </div>
+        <div class="how-step" data-step="2">
+          <div class="how-step-icon">🤖</div>
+          <h3>AI Builds the Proposal</h3>
+          <p>Our AI writes a professional scope of work, calculates itemized pricing, and drafts T&Cs.</p>
+        </div>
+        <div class="how-step" data-step="3">
+          <div class="how-step-icon">📄</div>
+          <h3>Download &amp; Send</h3>
+          <p>Get a branded PDF with signature lines. Email or print it. Hand it to your client and close the job.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <div class="trust-bar">
+      <span>Licensed &amp; Insured</span>
+      <span>Northeast Florida</span>
+      <span>AI-Powered</span>
+      <span>100% Free</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-logo">Florida Concrete Alliance</div>
+      <p class="footer-sub">Licensed · Insured · Built to Last · Northeast Florida</p>
+      <div class="footer-links">
+        <a href="tel:+19048969429">(904) 896-9429</a>
+        <a href="/">Home</a>
+        <a href="https://www.facebook.com/share/1RirDJKCEB/?mibextid=wwXIfr" target="_blank" rel="noreferrer">Facebook</a>
+      </div>
+      <p class="footer-copy">© 2026 Florida Concrete Alliance. All rights reserved.</p>
+    </footer>
+
+  <!-- UPGRADE MODAL -->
+  <div id="upgrade-modal-overlay">
+    <div class="upgrade-modal-card">
+      <div class="upgrade-modal-top"></div>
+      <div class="upgrade-modal-body">
+        <div class="upgrade-modal-icon">🔒</div>
+        <h2 class="upgrade-modal-title">You've Used Your 3 Free Proposals</h2>
+        <p class="upgrade-modal-sub">Upgrade to Pro to keep generating client-ready proposals - unlimited.</p>
+        <ul class="upgrade-feature-list">
+          <li>✅ Unlimited PDF proposals</li>
+          <li>✅ Your logo on every proposal</li>
+          <li>✅ Editable line items</li>
+          <li>✅ Auto-calculated pricing</li>
+          <li>✅ Professional T&amp;Cs &amp; signature lines</li>
+        </ul>
+        <div class="upgrade-price">$3.99 / month</div>
+        <button class="upgrade-now-btn" id="upgrade-now-btn">Upgrade Now →</button><br>
+        <button class="upgrade-maybe-later" id="upgrade-maybe-later">Maybe later</button>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /main-content -->
+
+  <script>
+    let contractorLogoBase64 = null;
+    // ── Helpers ──────────────────────────────────────────────────────────────
+    const fmt = n => '$' + Math.round(n).toLocaleString('en-US');
+
+    // ── Paywall ──────────────────────────────────────────────────────────────
+    const FREE_LIMIT = 3;
+    const STRIPE_URL = 'https://buy.stripe.com/aFaeVdfh9dVp82ogYG8k80e';
+
+    function getUsageCount() { return parseInt(localStorage.getItem('fca_proposal_count') || '0'); }
+    function incrementUsage() { localStorage.setItem('fca_proposal_count', getUsageCount() + 1); }
+    function isPro() { return localStorage.getItem('fca_is_pro') === '1'; }
+
+    // ── Gate logic ────────────────────────────────────────────────────────────
+    const GATE_KEY = 'fca_gate_passed';
+    const gateOverlay  = document.getElementById('gate-overlay');
+    const mainContent  = document.getElementById('main-content');
+    const gateForm     = document.getElementById('gate-form');
+    const gateSubmitBtn = document.getElementById('gate-submit-btn');
+    const gateBtnText  = document.getElementById('gate-btn-text');
+    const gateSpinner  = document.getElementById('gate-spinner');
+    const gateError    = document.getElementById('gate-error');
+
+    function revealTool() {
+      gateOverlay.classList.add('hidden');
+      mainContent.classList.add('visible');
+      // Pre-fill contractor email from localStorage if saved
+      const savedEmail = localStorage.getItem('fca_contractor_email');
+      if (savedEmail) document.getElementById('contractorEmail').value = savedEmail;
+      const savedName = localStorage.getItem('fca_contractor_name');
+      if (savedName) document.getElementById('contractorName').value = savedName;
+      // Pre-fill logo from localStorage if saved
+      const savedLogo = localStorage.getItem('fca_contractor_logo');
+      if (savedLogo) {
+        contractorLogoBase64 = savedLogo;
+        // logo display handled by bottom script
+      }
+      updateUsageBadge();
+    }
+
+    // Check localStorage on load
+    if (localStorage.getItem(GATE_KEY) === '1') {
+      revealTool();
+    }
+
+    gateForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const name    = document.getElementById('gate-name').value.trim();
+      const email   = document.getElementById('gate-email').value.trim();
+      const company = document.getElementById('gate-company').value.trim();
+
+      // Validate
+      let valid = true;
+      [document.getElementById('gate-name'), document.getElementById('gate-email')].forEach(el => {
+        if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+        else el.classList.remove('error');
+      });
+      if (!valid) { gateError.textContent = 'Please enter your name and email.'; gateError.style.display = 'block'; return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('gate-email').classList.add('error');
+        gateError.textContent = 'Please enter a valid email address.';
+        gateError.style.display = 'block';
+        return;
+      }
+
+      gateError.style.display = 'none';
+      gateSubmitBtn.disabled = true;
+      gateBtnText.textContent = 'Getting access...';
+      gateSpinner.style.display = 'block';
+
+      try {
+        const res  = await fetch('/api/gate', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ name, email, company }),
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          gateError.textContent = data.error || 'Something went wrong. Please try again.';
+          gateError.style.display = 'block';
+          gateSubmitBtn.disabled = false;
+          gateBtnText.textContent = 'Get Free Access →';
+          gateSpinner.style.display = 'none';
+          return;
+        }
+
+        // Success - persist, pre-fill, reveal
+        localStorage.setItem(GATE_KEY, '1');
+        localStorage.setItem('fca_contractor_email', email);
+        localStorage.setItem('fca_contractor_name', name);
+        localStorage.setItem('fca_contractor_company', company);
+        revealTool();
+
+        // Pre-fill contractor email on form
+        document.getElementById('contractorEmail').value = email;
+
+      } catch (err) {
+        gateError.textContent = 'Network error. Please check your connection and try again.';
+        gateError.style.display = 'block';
+        gateSubmitBtn.disabled = false;
+        gateBtnText.textContent = 'Get Free Access →';
+        gateSpinner.style.display = 'none';
+      }
+    });
+
+    // ── Proposal form logic ─────────────────────────────────────────────────
+    const proposalForm    = document.getElementById('proposal-form');
+    const formSection     = document.getElementById('proposal-form-section');
+    const resultsSection  = document.getElementById('results-section');
+    const breakdownSection = document.getElementById('breakdown-section');
+    const loadingWrap     = document.getElementById('loading-wrap');
+    const errorWrap       = document.getElementById('error-wrap');
+    const submitBtn       = document.getElementById('submit-btn');
+    const generatePdfBtn  = document.getElementById('generate-pdf-btn');
+
+    let currentPdfBase64  = null;
+    let currentClientName = '';
+    let currentDate       = '';
+    let currentFormData   = null;
+    let breakdownMarkupPct  = 20;
+    let breakdownDepositPct = 50;
+
+    // ── Proposal History ──────────────────────────────────────────────
+    function saveProposalToHistory(formData, calc) {
+      const history = JSON.parse(localStorage.getItem('fca_proposal_history') || '[]');
+      const entry = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        clientName: formData.clientName,
+        jobType: formData.jobType,
+        sqft: calc.sqft,
+        total: calc.total,
+        formData: { ...formData, contractorLogo: null }
+      };
+      history.unshift(entry);
+      const trimmed = history.slice(0, 5);
+      localStorage.setItem('fca_proposal_history', JSON.stringify(trimmed));
+    }
+
+    function renderHistory() {
+      const history = JSON.parse(localStorage.getItem('fca_proposal_history') || '[]');
+      const panel = document.getElementById('historyPanel');
+      const list  = document.getElementById('historyList');
+      if (history.length === 0) { panel.style.display = 'none'; return; }
+      panel.style.display = 'block';
+      list.innerHTML = history.map(entry => `
+        <div style="display:flex; align-items:center; gap:12px; padding:12px 16px; background:var(--surface-3); border-left:3px solid var(--gold); border-radius:8px; margin-bottom:8px; flex-wrap:wrap;">
+          <span style="color:#888; font-size:12px; min-width:80px;">${entry.date}</span>
+          <span style="color:#fff; font-size:13px; font-weight:600; flex:1;">${entry.clientName} <span style="color:#888; font-weight:400;">· ${entry.jobType}</span></span>
+          <span style="color:#D4A843; font-weight:700; font-size:13px;">$${entry.total.toLocaleString()}</span>
+          <button onclick="loadRevision(${entry.id})" style="background:var(--gold); color:var(--charcoal); border:none; padding:6px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">Load & Revise →</button>
+        </div>
+      `).join('');
+    }
+
+    function loadRevision(id) {
+      const history = JSON.parse(localStorage.getItem('fca_proposal_history') || '[]');
+      const entry = history.find(h => h.id === id);
+      if (!entry) return;
+      const fd = entry.formData;
+      document.getElementById('contractorName').value  = fd.contractorName  || '';
+      document.getElementById('contractorEmail').value = fd.contractorEmail || '';
+      document.getElementById('clientName').value      = fd.clientName      || '';
+      document.getElementById('clientAddress').value   = fd.clientAddress   || '';
+      document.getElementById('clientPhone').value     = fd.clientPhone     || '';
+      document.getElementById('jobType').value         = fd.jobType         || '';
+      document.getElementById('width').value           = fd.width           || '';
+      document.getElementById('length').value          = fd.length          || '';
+      document.getElementById('thickness').value       = fd.thickness       || '4';
+      document.getElementById('finishType').value      = fd.finishType      || '';
+      document.getElementById('markup').value          = fd.markup          || 20;
+      document.getElementById('notes').value           = fd.notes           || '';
+      // Restore payment schedule
+      const schedule = fd.paymentSchedule || '50-50';
+      document.getElementById('paymentSchedule').value = schedule;
+      document.querySelectorAll('.pay-opt').forEach(b => {
+        b.classList.toggle('active', b.dataset.schedule === schedule);
+      });
+      document.getElementById('customDepositInput').style.display = schedule === 'custom' ? 'block' : 'none';
+      if (schedule === 'custom' && fd.depositRequired) {
+        document.getElementById('deposit').value = fd.depositRequired;
+      }
+      document.getElementById('proposalForm') && document.getElementById('proposalForm').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('proposal-form-section').scrollIntoView({ behavior: 'smooth' });
+      showToast('Proposal loaded — make your changes and preview breakdown');
+    }
+
+    function showToast(msg) {
+      const t = document.createElement('div');
+      t.textContent = msg;
+      t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--charcoal);padding:12px 24px;border-radius:8px;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.3);';
+      document.body.appendChild(t);
+      setTimeout(() => t.remove(), 3000);
+    }
+
+    // ── Loading helpers ─────────────────────────────────────────────────────────
+    function showPreviewLoading() {
+      proposalForm.style.display = 'none';
+      errorWrap.style.display    = 'none';
+      document.getElementById('loading-title').textContent = 'Calculating Breakdown...';
+      document.getElementById('loading-sub').textContent   = 'Running pricing engine - back in a second';
+      document.getElementById('loading-steps-row').style.display = 'none';
+      loadingWrap.style.display = 'block';
+    }
+
+    function showFullLoading() {
+      breakdownSection.style.display = 'none';
+      formSection.style.display      = '';
+      proposalForm.style.display     = 'none';
+      errorWrap.style.display        = 'none';
+      document.getElementById('loading-title').textContent = 'Building Your Proposal...';
+      document.getElementById('loading-sub').textContent   = 'AI is writing scope of work, calculating pricing, generating PDF';
+      document.getElementById('loading-steps-row').style.display = '';
+      loadingWrap.style.display = 'block';
+      animateLoadingSteps();
+    }
+
+    function animateLoadingSteps() {
+      const steps = ['step-1', 'step-2', 'step-3'];
+      let i = 0;
+      steps.forEach(id => document.getElementById(id).classList.remove('active'));
+      document.getElementById(steps[0]).classList.add('active');
+      const interval = setInterval(() => {
+        i++;
+        if (i >= steps.length) { clearInterval(interval); return; }
+        steps.forEach(id => document.getElementById(id).classList.remove('active'));
+        document.getElementById(steps[i]).classList.add('active');
+      }, 5000);
+    }
+
+    function showError(msg) {
+      loadingWrap.style.display      = 'none';
+      breakdownSection.style.display = 'none';
+      formSection.style.display      = '';
+      proposalForm.style.display     = '';
+      errorWrap.style.display        = 'block';
+      document.getElementById('error-msg').textContent = msg;
+      errorWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function copyShareLink() {
+      const url = document.getElementById('share-link-input').value;
+      const btn = document.getElementById('copy-btn');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          btn.textContent = '✓ COPIED!';
+          setTimeout(() => btn.textContent = '📋 COPY CLIENT LINK', 2000);
+        }).catch(() => fallbackCopy(url, btn));
+      } else {
+        fallbackCopy(url, btn);
+      }
+    }
+    function fallbackCopy(text, btn) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.focus(); ta.select();
+      try { document.execCommand('copy'); btn.textContent = '✓ COPIED!'; }
+      catch { btn.textContent = 'Copy failed — tap link above'; }
+      document.body.removeChild(ta);
+      setTimeout(() => btn.textContent = '📋 COPY CLIENT LINK', 2000);
+    }
+
+    function resetForm() {
+      proposalForm.style.display     = '';
+      loadingWrap.style.display      = 'none';
+      errorWrap.style.display        = 'none';
+      resultsSection.style.display   = 'none';
+      breakdownSection.style.display = 'none';
+      formSection.style.display      = '';
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Preview Breakdown →';
+      generatePdfBtn.disabled = false;
+      // reset loading-wrap to PDF-generation defaults
+      document.getElementById('loading-title').textContent = 'Building Your Proposal...';
+      document.getElementById('loading-sub').textContent   = 'AI is writing scope of work, calculating pricing, generating PDF';
+      document.getElementById('loading-steps-row').style.display = '';
+      window.scrollTo({ top: document.getElementById('proposal-form-section').offsetTop - 80, behavior: 'smooth' });
+    }
+
+    function downloadPDF() {
+      if (!currentPdfBase64) return;
+      const safeClient = currentClientName.replace(/[^a-zA-Z0-9]/g, '-');
+      const filename = `FCA-Proposal-${safeClient}-${currentDate}.pdf`;
+      const byteChars = atob(currentPdfBase64);
+      const byteArr = new Uint8Array(byteChars.length);
+      for (let i = 0; i < byteChars.length; i++) byteArr[i] = byteChars.charCodeAt(i);
+      const blob = new Blob([byteArr], { type: 'application/pdf' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function renderResults(data) {
+      const est = data.estimate;
+      currentPdfBase64  = data.pdf;
+      currentClientName = est.clientName || 'Client';
+      currentDate       = new Date().toISOString().slice(0, 10);
+
+      document.getElementById('r-jobtype').textContent     = est.jobType;
+      document.getElementById('r-sqft').textContent        = est.sqft.toLocaleString();
+      document.getElementById('r-total').textContent       = fmt(est.total);
+      document.getElementById('r-deposit').textContent     = fmt(est.depositAmt);
+      document.getElementById('r-deposit-pct').textContent = `${est.depositPct}% at signing`;
+      document.getElementById('r-scope').textContent       = est.scopeOfWork || '-';
+      document.getElementById('result-email-addr').textContent =
+        document.getElementById('contractorEmail').value;
+
+      // Show share link if returned
+      if (data.shareUrl) {
+        document.getElementById('share-link-input').value = data.shareUrl;
+        document.getElementById('share-link-display').textContent = data.shareUrl;
+        document.getElementById('share-link-box').style.display = 'block';
+      }
+
+      loadingWrap.style.display      = 'none';
+      formSection.style.display      = 'none';
+      breakdownSection.style.display = 'none';
+      resultsSection.style.display   = 'block';
+        // Auto-save contractor profile
+        localStorage.setItem('fca_contractor_name',  currentFormData.contractorName);
+        localStorage.setItem('fca_contractor_email', currentFormData.contractorEmail);
+      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(downloadPDF, 600);
+    }
+
+    // ── Breakdown table helpers ────────────────────────────────────────────────
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function fmtMoney(n) {
+      const v = parseFloat(n);
+      return isNaN(v) ? '-' : '$' + Math.round(v).toLocaleString('en-US');
+    }
+
+    function updateTotals() {
+      const rows = document.querySelectorAll('#breakdown-tbody tr[data-row]');
+      let subtotal = 0;
+
+      rows.forEach(row => {
+        const checked  = row.querySelector('.bd-check').checked;
+        if (!checked) { row.classList.add('bd-row-excluded'); return; }
+        row.classList.remove('bd-row-excluded');
+
+        const qty      = parseFloat(row.querySelector('.bd-qty').value);
+        const unitCost = parseFloat(row.querySelector('.bd-unitcost').value);
+        let   rowTotal = parseFloat(row.dataset.rawTotal || 0);
+
+        if (!isNaN(qty) && !isNaN(unitCost)) {
+          rowTotal = qty * unitCost;
+          row.dataset.rawTotal = rowTotal;
+        }
+        row.querySelector('.bd-total-cell').textContent = fmtMoney(rowTotal);
+        subtotal += isNaN(rowTotal) ? 0 : rowTotal;
+      });
+
+      const markupAmt  = Math.round(subtotal * breakdownMarkupPct / 100);
+      const total      = subtotal + markupAmt;
+      // Compute deposit display based on payment schedule
+      const paySchedule = currentFormData?.paymentSchedule || '50-50';
+      let depositAmt, depositLabel;
+      if (paySchedule === '33-33-33') {
+        depositAmt   = Math.round(total / 3);
+        depositLabel = '1st Payment (33%)';
+      } else {
+        depositAmt   = Math.round(total * breakdownDepositPct / 100);
+        depositLabel = `Deposit (${breakdownDepositPct}%)`;
+      }
+
+      document.getElementById('t-subtotal').textContent     = fmtMoney(subtotal);
+      document.getElementById('t-markup').textContent       = fmtMoney(markupAmt);
+      document.getElementById('t-total').textContent        = fmtMoney(total);
+      document.getElementById('t-deposit-label').textContent = depositLabel;
+      document.getElementById('t-deposit').textContent      = fmtMoney(depositAmt);
+    }
+
+    function createTableRow(item) {
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-row', '1');
+      tr.dataset.rawTotal = item.total || 0;
+
+      const qtyVal      = (item.qty !== null && item.qty !== undefined) ? item.qty : '';
+      const unitCostVal = (item.unitCost !== null && item.unitCost !== undefined) ? item.unitCost : '';
+
+      tr.innerHTML = `
+        <td style="text-align:center">
+          <input type="checkbox" class="bd-check" checked/>
+        </td>
+        <td><input type="text" class="bd-input bd-desc" value="${escHtml(item.item || '')}" placeholder="Description"/></td>
+        <td><input type="text" class="bd-input bd-qty" value="${escHtml(String(qtyVal))}" placeholder="Qty"/></td>
+        <td>
+          <div class="bd-cost-wrap">
+            <span class="bd-dollar">$</span>
+            <input type="number" class="bd-input bd-unitcost"
+              value="${unitCostVal !== '' ? parseFloat(unitCostVal) : ''}"
+              placeholder="0.00" step="0.01" min="0"/>
+          </div>
+        </td>
+        <td class="bd-total-cell">${fmtMoney(item.total)}</td>
+        <td style="text-align:center">
+          <button type="button" class="bd-remove-btn" title="Remove row">✕</button>
+        </td>`;
+
+      tr.querySelector('.bd-remove-btn').addEventListener('click', () => { tr.remove(); updateTotals(); });
+      tr.querySelector('.bd-check').addEventListener('change', updateTotals);
+      tr.querySelector('.bd-qty').addEventListener('input', updateTotals);
+      tr.querySelector('.bd-unitcost').addEventListener('input', updateTotals);
+
+      return tr;
+    }
+
+    function buildBreakdownTable(data) {
+      const tbody = document.getElementById('breakdown-tbody');
+      tbody.innerHTML = '';
+
+      // Filter out markup line (unitCost === null) — it's recalculated in totals section
+      const items = (data.lineItems || []).filter(it => it.unitCost !== null && it.unitCost !== undefined);
+      items.forEach(item => tbody.appendChild(createTableRow(item)));
+
+      breakdownMarkupPct = currentFormData ? (parseFloat(currentFormData.markup) || 20) : 20;
+      const paySchedule  = currentFormData?.paymentSchedule || '50-50';
+      if (paySchedule === '33-33-33') {
+        breakdownDepositPct = 33;
+      } else if (paySchedule === 'custom') {
+        breakdownDepositPct = parseFloat(currentFormData?.depositRequired) || 50;
+      } else {
+        breakdownDepositPct = 50;
+      }
+
+      document.getElementById('t-markup-label').textContent = `Markup (${breakdownMarkupPct}%)`;
+      updateTotals();
+    }
+
+    function collectLineItems() {
+      const rows  = document.querySelectorAll('#breakdown-tbody tr[data-row]');
+      const items = [];
+      rows.forEach(row => {
+        if (!row.querySelector('.bd-check').checked) return;
+        const desc     = row.querySelector('.bd-desc').value.trim();
+        const qty      = row.querySelector('.bd-qty').value.trim();
+        const unitCost = parseFloat(row.querySelector('.bd-unitcost').value);
+        const qtyNum   = parseFloat(qty);
+        const rawTotal = parseFloat(row.dataset.rawTotal || 0);
+        const totalVal = (!isNaN(qtyNum) && !isNaN(unitCost))
+          ? Math.round(qtyNum * unitCost)
+          : Math.round(rawTotal);
+        items.push({ item: desc, qty, unitCost: isNaN(unitCost) ? null : unitCost, total: totalVal });
+      });
+      return items;
+    }
+
+    // ── Generate PDF from edited breakdown ───────────────────────────────────────
+    async function generatePDF() {
+      // Paywall check
+      if (!isPro() && getUsageCount() >= FREE_LIMIT) {
+        showUpgradeModal();
+        return;
+      }
+
+      const lineItemsOverride = collectLineItems();
+      if (lineItemsOverride.length === 0) {
+        alert('Please include at least one line item.');
+        return;
+      }
+      generatePdfBtn.disabled = true;
+      showFullLoading();
+
+      try {
+        const res  = await fetch('/api/proposal', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({
+            ...currentFormData,
+            lineItemsOverride,
+            contractorLogo: contractorLogoBase64,
+          }),
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          showError(data.error || 'Failed to generate proposal. Please try again.');
+          generatePdfBtn.disabled = false;
+          return;
+        }
+        incrementUsage();
+        updateUsageBadge();
+        saveProposalToHistory(currentFormData, { sqft: data.estimate.sqft, total: data.estimate.total });
+        renderHistory();
+        renderResults(data);
+
+      } catch (err) {
+        showError('Network error. Please check your connection and try again.');
+        generatePdfBtn.disabled = false;
+      }
+    }
+
+    // ── Step 1: Preview Breakdown on form submit ──────────────────────────────
+    async function handlePreviewSubmit(e) {
+      if (e) e.preventDefault();
+
+      const required = ['contractorName','contractorEmail','clientName','clientAddress','jobType','width','length','thickness','finishType'];
+      let allValid = true;
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) { el.classList.add('field-error'); allValid = false; }
+        else                  { el.classList.remove('field-error'); }
+      }
+      if (!allValid) {
+        document.querySelector('.field-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      const _schedule = document.getElementById('paymentSchedule').value || '50-50';
+      const _depositRequired = _schedule === 'custom'
+        ? (document.getElementById('deposit').value || '50')
+        : (_schedule === '33-33-33' ? '33' : '50');
+
+      currentFormData = {
+        contractorName:  document.getElementById('contractorName').value.trim(),
+        contractorEmail: document.getElementById('contractorEmail').value.trim(),
+        clientName:      document.getElementById('clientName').value.trim(),
+        clientAddress:   document.getElementById('clientAddress').value.trim(),
+        clientPhone:     document.getElementById('clientPhone').value.trim(),
+        jobType:         document.getElementById('jobType').value,
+        width:           document.getElementById('width').value,
+        length:          document.getElementById('length').value,
+        thickness:       document.getElementById('thickness').value,
+        finishType:      document.getElementById('finishType').value,
+        markup:          document.getElementById('markup').value || '20',
+        paymentSchedule: _schedule,
+        depositRequired: _depositRequired,
+        startDate:       document.getElementById('startDate').value,
+        notes:           document.getElementById('notes').value.trim(),
+        contractorLogo:  contractorLogoBase64,
+      };
+
+      showPreviewLoading();
+      submitBtn.disabled = true;
+
+      try {
+        const res  = await fetch('/api/preview', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({
+            jobType:         currentFormData.jobType,
+            width:           currentFormData.width,
+            length:          currentFormData.length,
+            thickness:       currentFormData.thickness,
+            finishType:      currentFormData.finishType,
+            markup:          currentFormData.markup,
+            paymentSchedule: currentFormData.paymentSchedule,
+            depositRequired: currentFormData.depositRequired,
+            // logo not needed for preview — strips it to keep request under size limit
+          }),
+        });
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          showError(data.error || 'Failed to calculate breakdown. Please try again.');
+          submitBtn.disabled = false;
+          return;
+        }
+
+        // Show breakdown editor
+        loadingWrap.style.display = 'none';
+        buildBreakdownTable(data);
+        updateUsageBadge();
+        renderHistory();
+        formSection.style.display = 'none';
+        breakdownSection.style.display = 'block';
+        breakdownSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        submitBtn.disabled = false;
+
+      } catch (err) {
+        showError('Network error. Please check your connection and try again.');
+        submitBtn.disabled = false;
+      }
+    }
+
+    // ── Breakdown section button listeners ────────────────────────────────────
+    document.getElementById('add-line-btn').addEventListener('click', () => {
+      const tbody = document.getElementById('breakdown-tbody');
+      const tr = createTableRow({ item: '', qty: '', unitCost: '', total: 0 });
+      tbody.appendChild(tr);
+      tr.querySelector('.bd-desc').focus();
+      updateTotals();
+    });
+
+    document.getElementById('generate-pdf-btn').addEventListener('click', generatePDF);
+
+    // ── Payment Schedule selector ───────────────────────────────────────
+    function setPaySchedule(schedule) {
+      document.querySelectorAll('.pay-opt').forEach(b => b.classList.remove('active'));
+      const target = document.querySelector(`.pay-opt[data-schedule="${schedule}"]`);
+      if (target) target.classList.add('active');
+      document.getElementById('paymentSchedule').value = schedule;
+      document.getElementById('customDepositInput').style.display = schedule === 'custom' ? 'block' : 'none';
+    }
+    // pay-opt buttons use inline onclick — no listener needed here
+
+    // ── History clear button ──────────────────────────────────────────
+    document.getElementById('clearHistory').addEventListener('click', () => {
+      localStorage.removeItem('fca_proposal_history');
+      renderHistory();
+    });
+
+    // ── Usage badge + upgrade modal helpers ──────────────────────────────────
+    function updateUsageBadge() {
+      const badge   = document.getElementById('usage-badge');
+      const navLink = document.getElementById('upgrade-nav-link');
+      if (!badge) return;
+      const count     = getUsageCount();
+      const remaining = Math.max(0, FREE_LIMIT - count);
+      if (isPro()) {
+        badge.className = 'usage-badge pro';
+        badge.textContent = '✅ Pro - unlimited proposals';
+        if (navLink) navLink.style.display = 'none';
+      } else if (remaining > 0) {
+        badge.className = 'usage-badge ok';
+        badge.textContent = `✅ ${remaining} of ${FREE_LIMIT} free proposals remaining`;
+        if (navLink) navLink.style.display = count >= 1 ? 'inline-block' : 'none';
+      } else {
+        badge.className = 'usage-badge warn';
+        badge.textContent = `⚠️ 0 free proposals remaining - upgrade to continue`;
+        if (navLink) navLink.style.display = 'inline-block';
+      }
+    }
+
+    function showUpgradeModal() {
+      document.getElementById('upgrade-modal-overlay').classList.add('visible');
+    }
+    function hideUpgradeModal() {
+      document.getElementById('upgrade-modal-overlay').classList.remove('visible');
+    }
+
+    document.getElementById('upgrade-now-btn').addEventListener('click', function() {
+      window.open(STRIPE_URL, '_blank');
+    });
+    document.getElementById('upgrade-maybe-later').addEventListener('click', hideUpgradeModal);
+    document.getElementById('upgrade-nav-link').addEventListener('click', showUpgradeModal);
+
+    // ── Logo upload ──────────────────────────────────────────────────────────────────────
+    function handleLogoFile(file) {
+      if (!file) return;
+      var s = document.getElementById('logoStatus');
+      var i = document.getElementById('logoImg');
+      var r = document.getElementById('removeLogo');
+      if (s) s.textContent = '\u2713 ' + file.name;
+      if (r) r.style.display = 'inline-block';
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        contractorLogoBase64 = ev.target.result;
+        localStorage.setItem('fca_contractor_logo', ev.target.result);
+        if (i) { i.src = ev.target.result; i.style.display = 'block'; }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function clearLogo() {
+      contractorLogoBase64 = null;
+      localStorage.removeItem('fca_contractor_logo');
+      var f = document.getElementById('logoFile');
+      var s = document.getElementById('logoStatus');
+      var i = document.getElementById('logoImg');
+      var r = document.getElementById('removeLogo');
+      if (f) f.value = '';
+      if (s) s.textContent = '';
+      if (i) { i.src = ''; i.style.display = 'none'; }
+      if (r) r.style.display = 'none';
+    }
+
+    var logoFileEl = document.getElementById('logoFile');
+    if (logoFileEl) {
+      logoFileEl.addEventListener('change', function() { handleLogoFile(this.files && this.files[0]); });
+    }
+
+    var removeLogoEl = document.getElementById('removeLogo');
+    if (removeLogoEl) {
+      removeLogoEl.addEventListener('click', function(e) { e.preventDefault(); e.stopPropagation(); clearLogo(); });
+    }
+
+    // Restore saved logo
+    var savedLogoData = localStorage.getItem('fca_contractor_logo');
+    if (savedLogoData) {
+      contractorLogoBase64 = savedLogoData;
+      var sl = document.getElementById('logoStatus');
+      var il = document.getElementById('logoImg');
+      var rl = document.getElementById('removeLogo');
+      if (sl) sl.textContent = '\u2713 Logo saved';
+      if (il) { il.src = savedLogoData; il.style.display = 'block'; }
+      if (rl) rl.style.display = 'inline-block';
+    }
+
+    // Initial badge render + history
+    updateUsageBadge();
+    renderHistory();
+  </script>
+
+
+
+
+  <script>
+    // Nav scroll — matches homepage
+    const navEl = document.getElementById('nav');
+    if (navEl) {
+      window.addEventListener('scroll', () => {
+        navEl.classList.toggle('scrolled', window.scrollY > 60);
+      });
+      // Start scrolled since content is below nav
+      navEl.classList.add('scrolled');
+    }
+  </script>
+</body>
+</html>

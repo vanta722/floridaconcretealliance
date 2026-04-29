@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Proposal Generator — Florida Concrete Alliance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #C49A3C;
+      --gold-light: #D4AF6A;
+      --gold-dim: rgba(196,154,60,0.12);
+      --cream: #EDE8DF;
+      --black: #070707;
+      --surface: #0D0D0D;
+      --surface-2: #141414;
+      --surface-3: #1A1A1A;
+      --border: rgba(196,154,60,0.2);
+      --border-subtle: rgba(255,255,255,0.06);
+      --text-muted: rgba(237,232,223,0.45);
+      --green: #22c55e;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+
+    /* ─── TOP BAR ─── */
+    .topbar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .topbar-brand img { width: 30px; height: 30px; object-fit: contain; border-radius: 2px; }
+    .topbar-brand-text {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--cream);
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+    }
+    .btn-back {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .btn-back:hover { color: var(--cream); }
+
+    /* ─── LAYOUT ─── */
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 65px);
+    }
+
+    /* ─── LEFT PANEL (FORM) ─── */
+    .panel-form {
+      background: var(--surface);
+      border-right: 1px solid var(--border-subtle);
+      padding: 48px 40px;
+      overflow-y: auto;
+    }
+    .panel-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+    .panel-title em { font-style: italic; color: var(--gold); }
+    .panel-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border-subtle); }
+    .form-section { margin-bottom: 32px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 7px;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--surface-3);
+      border: 1px solid var(--border-subtle);
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--cream);
+      outline: none;
+      border-radius: 0;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); }
+    .form-select {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C49A3C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+    .form-select option { background: #1a1a1a; color: var(--cream); }
+    .form-textarea { resize: vertical; min-height: 80px; }
+
+    /* line items */
+    .line-items { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+    .line-item {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 80px 36px;
+      gap: 8px;
+      align-items: center;
+    }
+    .line-item-num {
+      font-size: 10px;
+      color: var(--gold);
+      text-align: center;
+      letter-spacing: 1px;
+      padding-top: 12px;
+    }
+    .btn-add-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 4px;
+    }
+    .btn-add-line:hover { background: rgba(196,154,60,0.2); }
+    .btn-remove {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.2);
+      color: #ef4444;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 6px 10px;
+      transition: all 0.2s;
+      line-height: 1;
+    }
+    .btn-remove:hover { background: rgba(239,68,68,0.2); }
+
+    /* totals */
+    .totals-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      padding: 20px 24px;
+      margin-top: 8px;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 14px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .total-row:last-child { border-bottom: none; }
+    .total-row.grand {
+      font-size: 20px;
+      font-family: 'Cormorant Garant', serif;
+      font-weight: 500;
+      color: var(--gold);
+      padding-top: 14px;
+    }
+    .total-row.grand span:first-child { color: var(--cream); }
+
+    /* notes */
+    .terms-preset {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      background: var(--surface-2);
+      border: 1px solid var(--border-subtle);
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .terms-preset:hover { border-color: var(--gold); }
+    .terms-preset strong { color: var(--cream); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+
+    /* generate btn */
+    .btn-generate {
+      width: 100%;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      padding: 18px 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-generate:hover { background: var(--gold-light); }
+    .btn-generate:active { opacity: 0.85; }
+
+    /* ─── RIGHT PANEL (PREVIEW) ─── */
+    .panel-preview {
+      background: var(--surface-2);
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow-y: auto;
+    }
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .preview-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-download:hover { background: var(--gold-light); }
+    .btn-download:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Document preview */
+    .doc-preview {
+      background: #fff;
+      color: #1a1a1a;
+      padding: 48px 48px;
+      min-height: 600px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.6;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    }
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 3px solid #C49A3C;
+    }
+    .doc-company-name {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .doc-company-info { font-size: 11px; color: #666; line-height: 1.7; }
+    .doc-proposal-label {
+      text-align: right;
+    }
+    .doc-proposal-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: 28px;
+      font-weight: 300;
+      color: #C49A3C;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .doc-proposal-meta { font-size: 11px; color: #888; margin-top: 4px; }
+
+    .doc-parties {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 28px;
+    }
+    .doc-party-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #C49A3C;
+      margin-bottom: 8px;
+    }
+    .doc-party-name { font-size: 15px; font-weight: 700; color: #1a1a1a; margin-bottom: 2px; }
+    .doc-party-info { font-size: 12px; color: #555; line-height: 1.6; }
+
+    .doc-section-title {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #C49A3C;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .doc-scope {
+      font-size: 13px;
+      color: #333;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      white-space: pre-line;
+    }
+
+    .doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+    .doc-table th {
+      background: #1a1a1a;
+      color: #fff;
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .doc-table th:last-child { text-align: right; }
+    .doc-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #f0f0f0;
+      color: #333;
+      vertical-align: top;
+    }
+    .doc-table td:last-child { text-align: right; font-weight: 600; }
+    .doc-table tr:nth-child(even) td { background: #fafafa; }
+
+    .doc-totals {
+      margin-left: auto;
+      width: 280px;
+      margin-bottom: 24px;
+    }
+    .doc-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      font-size: 13px;
+      border-bottom: 1px solid #eee;
+      color: #555;
+    }
+    .doc-total-row.grand {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a1a1a;
+      border-bottom: 2px solid #C49A3C;
+      border-top: 2px solid #1a1a1a;
+      padding: 10px 0;
+    }
+
+    .doc-terms {
+      font-size: 11px;
+      color: #555;
+      line-height: 1.7;
+      background: #f9f9f7;
+      padding: 16px 20px;
+      border-left: 3px solid #C49A3C;
+      margin-bottom: 24px;
+      white-space: pre-line;
+    }
+    .doc-signatures {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid #eee;
+    }
+    .doc-sig-label {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 32px;
+    }
+    .doc-sig-line {
+      border-top: 1px solid #333;
+      padding-top: 6px;
+      font-size: 11px;
+      color: #888;
+    }
+    .doc-footer {
+      text-align: center;
+      font-size: 10px;
+      color: #bbb;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      letter-spacing: 1px;
+    }
+
+    /* placeholder state */
+    .preview-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      text-align: center;
+      border: 1px dashed var(--border-subtle);
+      padding: 48px;
+      color: var(--text-muted);
+    }
+    .preview-placeholder-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
+    .preview-placeholder-text { font-size: 14px; line-height: 1.7; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .main { grid-template-columns: 1fr; }
+      .panel-form { border-right: none; border-bottom: 1px solid var(--border-subtle); }
+    }
+    @media (max-width: 640px) {
+      .topbar { padding: 14px 20px; }
+      .topbar-brand-text { display: none; }
+      .panel-form, .panel-preview { padding: 28px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .line-item { grid-template-columns: 1fr; }
+      .doc-preview { padding: 28px 24px; }
+      .doc-parties { grid-template-columns: 1fr; }
+      .doc-signatures { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <a href="/" class="topbar-brand">
+      <img src="fca-logo.jpg" alt="FCA" />
+      <span class="topbar-brand-text">Florida Concrete Alliance</span>
+    </a>
+    <div class="topbar-right">
+      <span class="topbar-tag">⚙️ Proposal Tool</span>
+      <a href="/" class="btn-back">← Back to site</a>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- ─── LEFT: FORM ─── -->
+    <div class="panel-form">
+      <div class="panel-title">Build a <em>Proposal</em></div>
+      <div class="panel-sub">Fill in the details below. Preview updates live. Download as PDF when ready.</div>
+
+      <!-- CLIENT INFO -->
+      <div class="form-section">
+        <div class="section-label">Client Information</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Client Name *</label>
+            <input class="form-input" id="clientName" type="text" placeholder="John Smith" oninput="updatePreview()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input class="form-input" id="clientPhone" type="text" placeholder="(904) 000-0000" oninput="updatePreview()" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-input" id="clientEmail" type="email" placeholder="client@email.com" oninput="updatePreview()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Proposal Date</label>
+            <input class="form-input" id="proposalDate" type="date" oninput="updatePreview()" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Project Address *</label>
+          <input class="form-input" id="projectAddress" type="text" placeholder="123 Oak St, Jacksonville, FL 32216" oninput="updatePreview()" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Proposal # </label>
+            <input class="form-input" id="proposalNum" type="text" placeholder="FCA-2026-001" oninput="updatePreview()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Valid Until</label>
+            <input class="form-input" id="validUntil" type="date" oninput="updatePreview()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT DETAILS -->
+      <div class="form-section">
+        <div class="section-label">Project Details</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Project Type *</label>
+            <select class="form-select" id="projectType" onchange="updatePreview()">
+              <option value="">Select type…</option>
+              <option>Concrete Driveway</option>
+              <option>Patio / Pool Deck</option>
+              <option>Foundation / Slab</option>
+              <option>Stamped / Decorative Concrete</option>
+              <option>Walkway / Sidewalk</option>
+              <option>Concrete Repair / Resurfacing</option>
+              <option>Parking Lot</option>
+              <option>Custom</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Finish Type</label>
+            <select class="form-select" id="finishType" onchange="updatePreview()">
+              <option value="">Select finish…</option>
+              <option>Broom Finish</option>
+              <option>Exposed Aggregate</option>
+              <option>Stamped (Cobblestone)</option>
+              <option>Stamped (Slate)</option>
+              <option>Stamped (Wood Plank)</option>
+              <option>Smooth / Trowel Finish</option>
+              <option>Brushed Finish</option>
+              <option>Resurfacing Overlay</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Scope of Work</label>
+          <textarea class="form-textarea" id="scopeText" rows="4" placeholder="Describe the work to be performed…" oninput="updatePreview()"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Est. Start Date</label>
+            <input class="form-input" id="startDate" type="date" oninput="updatePreview()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Est. Completion</label>
+            <input class="form-input" id="endDate" type="date" oninput="updatePreview()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- LINE ITEMS -->
+      <div class="form-section">
+        <div class="section-label">Line Items / Pricing</div>
+        <div class="line-items" id="lineItems">
+          <!-- injected by JS -->
+        </div>
+        <button class="btn-add-line" onclick="addLine()">+ Add Line Item</button>
+
+        <div class="totals-box" style="margin-top:20px;">
+          <div class="total-row">
+            <span>Subtotal</span>
+            <span id="subtotalDisplay">$0.00</span>
+          </div>
+          <div class="total-row">
+            <span>Tax (<span id="taxRateDisplay">0</span>%)</span>
+            <span id="taxDisplay">$0.00</span>
+          </div>
+          <div class="total-row grand">
+            <span>Total</span>
+            <span id="grandTotalDisplay">$0.00</span>
+          </div>
+        </div>
+
+        <div class="form-row" style="margin-top:16px;">
+          <div class="form-group">
+            <label class="form-label">Tax Rate (%)</label>
+            <input class="form-input" id="taxRate" type="number" placeholder="0" value="0" min="0" max="20" step="0.1" oninput="updatePreview()" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Deposit Required</label>
+            <input class="form-input" id="depositAmount" type="text" placeholder="e.g. 50% or $1,500" oninput="updatePreview()" />
+          </div>
+        </div>
+      </div>
+
+      <!-- TERMS -->
+      <div class="form-section">
+        <div class="section-label">Terms & Notes</div>
+        <div class="terms-preset" onclick="useDefaultTerms()">
+          <strong>Use Default FCA Terms</strong>
+          50% deposit required to schedule · Balance due upon completion · Price valid 30 days · Owner responsible for permits · Florida Concrete Alliance is not liable for underground utilities
+        </div>
+        <div class="form-group">
+          <label class="form-label">Terms & Conditions</label>
+          <textarea class="form-textarea" id="termsText" rows="5" placeholder="Enter your terms and conditions…" oninput="updatePreview()"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Additional Notes</label>
+          <textarea class="form-textarea" id="notesText" rows="3" placeholder="Any additional notes for the client…" oninput="updatePreview()"></textarea>
+        </div>
+      </div>
+
+      <button class="btn-generate" onclick="downloadPDF()">
+        📄 Download Proposal PDF
+      </button>
+    </div>
+
+    <!-- ─── RIGHT: PREVIEW ─── -->
+    <div class="panel-preview">
+      <div class="preview-header">
+        <span class="preview-title">Live Preview</span>
+        <button class="btn-download" id="downloadBtn" onclick="downloadPDF()" disabled>⬇ Download PDF</button>
+      </div>
+
+      <div id="previewArea">
+        <div class="preview-placeholder">
+          <div class="preview-placeholder-icon">📋</div>
+          <div class="preview-placeholder-text">Fill in the client details and line items on the left — your proposal preview will appear here in real time.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ─── STATE ───
+    let lines = [];
+    let lineCounter = 0;
+
+    // Init with today's date
+    document.getElementById('proposalDate').value = new Date().toISOString().split('T')[0];
+    const validDate = new Date(); validDate.setDate(validDate.getDate() + 30);
+    document.getElementById('validUntil').value = validDate.toISOString().split('T')[0];
+    document.getElementById('proposalNum').value = 'FCA-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900)+100);
+
+    // Add default line item
+    addLine('Labor & Materials', 1, 0);
+
+    function addLine(desc='', qty=1, price=0) {
+      const id = ++lineCounter;
+      lines.push({ id, desc, qty, price });
+      renderLines();
+    }
+
+    function removeLine(id) {
+      lines = lines.filter(l => l.id !== id);
+      renderLines();
+    }
+
+    function renderLines() {
+      const container = document.getElementById('lineItems');
+      container.innerHTML = '';
+      lines.forEach((line, idx) => {
+        const div = document.createElement('div');
+        div.className = 'line-item';
+        div.innerHTML = `
+          <div>
+            <label class="form-label">Description</label>
+            <input class="form-input" type="text" placeholder="Description" value="${esc(line.desc)}"
+              oninput="updateLine(${line.id}, 'desc', this.value)" />
+          </div>
+          <div>
+            <label class="form-label">Qty / Sqft</label>
+            <input class="form-input" type="number" placeholder="1" value="${line.qty}" min="0"
+              oninput="updateLine(${line.id}, 'qty', parseFloat(this.value)||0)" />
+          </div>
+          <div>
+            <label class="form-label">Unit Price ($)</label>
+            <input class="form-input" type="number" placeholder="0.00" value="${line.price}" min="0" step="0.01"
+              oninput="updateLine(${line.id}, 'price', parseFloat(this.value)||0)" />
+          </div>
+          <div>
+            <label class="form-label">Total</label>
+            <input class="form-input" type="text" value="${fmt(line.qty * line.price)}" readonly style="color:var(--gold);background:var(--surface-2);" />
+          </div>
+          <div style="padding-top:20px;">
+            <button class="btn-remove" onclick="removeLine(${line.id})">×</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+      updatePreview();
+    }
+
+    function updateLine(id, field, value) {
+      const line = lines.find(l => l.id === id);
+      if (line) { line[field] = value; updatePreview(); }
+      // update total display inline
+      renderLineTotal(id);
+    }
+
+    function renderLineTotal(id) {
+      // Just call updatePreview for simplicity
+      updatePreview();
+    }
+
+    function calcTotals() {
+      const subtotal = lines.reduce((s, l) => s + (l.qty * l.price), 0);
+      const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+      const tax = subtotal * taxRate / 100;
+      const grand = subtotal + tax;
+      return { subtotal, tax, taxRate, grand };
+    }
+
+    function updatePreview() {
+      const { subtotal, tax, taxRate, grand } = calcTotals();
+
+      // Update totals in form
+      document.getElementById('subtotalDisplay').textContent = fmt(subtotal);
+      document.getElementById('taxDisplay').textContent = fmt(tax);
+      document.getElementById('taxRateDisplay').textContent = taxRate;
+      document.getElementById('grandTotalDisplay').textContent = fmt(grand);
+
+      // Check if enough data to show preview
+      const clientName = document.getElementById('clientName').value.trim();
+      const projectType = document.getElementById('projectType').value;
+
+      if (!clientName && !projectType) {
+        document.getElementById('downloadBtn').disabled = true;
+        return;
+      }
+
+      document.getElementById('downloadBtn').disabled = false;
+      document.getElementById('previewArea').innerHTML = buildPreviewHTML();
+    }
+
+    function buildPreviewHTML() {
+      const clientName = v('clientName') || 'Client Name';
+      const clientPhone = v('clientPhone');
+      const clientEmail = v('clientEmail');
+      const projectAddress = v('projectAddress') || '—';
+      const proposalDate = fmtDate(v('proposalDate'));
+      const validUntil = fmtDate(v('validUntil'));
+      const proposalNum = v('proposalNum');
+      const projectType = v('projectType') || '—';
+      const finishType = v('finishType');
+      const scopeText = v('scopeText');
+      const startDate = fmtDate(v('startDate'));
+      const endDate = fmtDate(v('endDate'));
+      const termsText = v('termsText');
+      const notesText = v('notesText');
+      const depositAmount = v('depositAmount');
+
+      const { subtotal, tax, taxRate, grand } = calcTotals();
+
+      let scopeAuto = '';
+      if (projectType && projectType !== 'Custom') {
+        scopeAuto = generateScope(projectType, finishType, startDate, endDate);
+      }
+      const scopeFinal = scopeText || scopeAuto;
+
+      let lineRows = '';
+      lines.forEach(l => {
+        if (l.desc || l.price > 0) {
+          lineRows += `
+            <tr>
+              <td>${esc(l.desc) || '—'}</td>
+              <td style="text-align:center;">${l.qty}</td>
+              <td style="text-align:right;">${fmt(l.price)}</td>
+              <td>${fmt(l.qty * l.price)}</td>
+            </tr>`;
+        }
+      });
+
+      return `<div class="doc-preview">
+        <div class="doc-header">
+          <div>
+            <div class="doc-company-name">Florida Concrete Alliance</div>
+            <div class="doc-company-info">
+              Licensed &amp; Insured · Northeast Florida<br/>
+              (904) 896-9429<br/>
+              floridaconcretealliance.com
+            </div>
+          </div>
+          <div class="doc-proposal-label">
+            <div class="doc-proposal-title">Proposal</div>
+            <div class="doc-proposal-meta">
+              ${proposalNum ? '#' + esc(proposalNum) + ' · ' : ''}${proposalDate}<br/>
+              ${validUntil ? 'Valid until: ' + validUntil : ''}
+            </div>
+          </div>
+        </div>
+
+        <div class="doc-parties">
+          <div>
+            <div class="doc-party-label">Prepared For</div>
+            <div class="doc-party-name">${esc(clientName)}</div>
+            <div class="doc-party-info">
+              ${clientPhone ? esc(clientPhone) + '<br/>' : ''}
+              ${clientEmail ? esc(clientEmail) + '<br/>' : ''}
+              ${esc(projectAddress)}
+            </div>
+          </div>
+          <div>
+            <div class="doc-party-label">Project</div>
+            <div class="doc-party-name">${esc(projectType)}</div>
+            <div class="doc-party-info">
+              ${finishType ? 'Finish: ' + esc(finishType) + '<br/>' : ''}
+              ${startDate ? 'Start: ' + startDate : ''}
+              ${endDate ? ' · Complete: ' + endDate : ''}
+            </div>
+          </div>
+        </div>
+
+        ${scopeFinal ? `
+        <div style="margin-bottom:24px;">
+          <div class="doc-section-title">Scope of Work</div>
+          <div class="doc-scope">${esc(scopeFinal)}</div>
+        </div>` : ''}
+
+        <div style="margin-bottom:16px;">
+          <div class="doc-section-title">Pricing</div>
+          <table class="doc-table">
+            <thead>
+              <tr>
+                <th style="width:50%;">Description</th>
+                <th style="text-align:center; width:12%;">Qty</th>
+                <th style="text-align:right; width:18%;">Unit Price</th>
+                <th style="text-align:right; width:20%;">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${lineRows || '<tr><td colspan="4" style="color:#999; text-align:center; padding:20px;">No line items added</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="doc-totals">
+          <div class="doc-total-row"><span>Subtotal</span><span>${fmt(subtotal)}</span></div>
+          ${taxRate > 0 ? `<div class="doc-total-row"><span>Tax (${taxRate}%)</span><span>${fmt(tax)}</span></div>` : ''}
+          ${depositAmount ? `<div class="doc-total-row"><span>Deposit Required</span><span>${esc(depositAmount)}</span></div>` : ''}
+          <div class="doc-total-row grand"><span>Total</span><span>${fmt(grand)}</span></div>
+        </div>
+
+        ${termsText || notesText ? `
+        <div>
+          <div class="doc-section-title">Terms &amp; Conditions</div>
+          <div class="doc-terms">${esc(termsText || '')}${notesText ? '\n\nNotes: ' + esc(notesText) : ''}</div>
+        </div>` : ''}
+
+        <div class="doc-signatures">
+          <div>
+            <div class="doc-sig-label">Contractor Signature</div>
+            <div class="doc-sig-line">Florida Concrete Alliance · (904) 896-9429</div>
+          </div>
+          <div>
+            <div class="doc-sig-label">Client Acceptance</div>
+            <div class="doc-sig-line">Signature &amp; Date</div>
+          </div>
+        </div>
+
+        <div class="doc-footer">
+          Florida Concrete Alliance · Licensed &amp; Insured · Northeast Florida · (904) 896-9429 · floridaconcretealliance.com
+        </div>
+      </div>`;
+    }
+
+    function generateScope(type, finish, start, end) {
+      const finishStr = finish ? ` with a ${finish.toLowerCase()}` : '';
+      const timeline = start && end ? ` Work is scheduled to begin ${start} with estimated completion by ${end}.` : '';
+      const scopes = {
+        'Concrete Driveway': `Supply and install new concrete driveway${finishStr}. Work includes: site preparation and grading, form setting, reinforcement (rebar/wire mesh as required), concrete pour and finishing, and final cleanup.${timeline}\n\nAll work performed in accordance with Florida building codes. Concrete mix designed for Florida climate conditions.`,
+        'Patio / Pool Deck': `Supply and install new concrete patio/pool deck${finishStr}. Work includes: site preparation, form setting, concrete pour and finishing, curing, and cleanup.${timeline}\n\nProper drainage slope will be maintained. Decorative finish and sealant applied per client selection.`,
+        'Foundation / Slab': `Supply and install concrete foundation/slab${finishStr}. Work includes: site prep, grading, vapor barrier (if required), rebar reinforcement grid, concrete pour and finishing, and cleanup.${timeline}\n\nSlab thickness and reinforcement per engineering requirements and local code.`,
+        'Stamped / Decorative Concrete': `Supply and install stamped/decorative concrete${finishStr}. Work includes: site preparation, form setting, concrete pour, decorative stamping and coloring, sealant application, and cleanup.${timeline}\n\nPattern and color selection per client approval. Sealant applied for long-term protection and durability.`,
+        'Walkway / Sidewalk': `Supply and install concrete walkway/sidewalk${finishStr}. Work includes: excavation, base preparation, form setting, concrete pour and finishing, curing, and cleanup.${timeline}`,
+        'Concrete Repair / Resurfacing': `Concrete repair and resurfacing services${finishStr}. Work includes: cleaning existing surface, crack repair and filling, surface overlay application, finishing, and sealant application.${timeline}\n\nAll repairs made to restore structural integrity and appearance of existing concrete.`,
+        'Parking Lot': `Supply and install concrete parking lot${finishStr}. Work includes: site grading, sub-base preparation, form setting, concrete pour and finishing, curing, joint cutting, and cleanup.${timeline}`,
+      };
+      return scopes[type] || `Supply and install ${type.toLowerCase()}${finishStr}.${timeline}`;
+    }
+
+    function useDefaultTerms() {
+      document.getElementById('termsText').value =
+        `1. A 50% deposit is required to schedule the job. Balance is due upon completion.\n2. This proposal is valid for 30 days from the date issued.\n3. Customer is responsible for obtaining any required permits unless otherwise agreed.\n4. Florida Concrete Alliance is not liable for damage to underground utilities not marked prior to excavation.\n5. Any changes to scope of work must be agreed upon in writing and may affect pricing.\n6. Florida Concrete Alliance carries full liability insurance. Certificate available upon request.`;
+      updatePreview();
+    }
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'p', unit: 'pt', format: 'letter' });
+
+      const clientName = v('clientName') || 'Client';
+      const clientPhone = v('clientPhone');
+      const clientEmail = v('clientEmail');
+      const projectAddress = v('projectAddress') || '—';
+      const proposalDate = fmtDate(v('proposalDate'));
+      const validUntil = fmtDate(v('validUntil'));
+      const proposalNum = v('proposalNum');
+      const projectType = v('projectType') || '—';
+      const finishType = v('finishType');
+      const scopeText = v('scopeText');
+      const startDate = fmtDate(v('startDate'));
+      const endDate = fmtDate(v('endDate'));
+      const termsText = v('termsText');
+      const notesText = v('notesText');
+      const depositAmount = v('depositAmount');
+      const { subtotal, tax, taxRate, grand } = calcTotals();
+
+      const gold = [196, 154, 60];
+      const black = [26, 26, 26];
+      const gray = [100, 100, 100];
+      const lightGray = [240, 240, 240];
+
+      const W = 612, margin = 48;
+      let y = margin;
+
+      // ── Header gold bar
+      doc.setFillColor(...gold);
+      doc.rect(0, 0, W, 6, 'F');
+
+      // ── Company name
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.setTextColor(...black);
+      doc.text('FLORIDA CONCRETE ALLIANCE', margin, y + 28);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(...gray);
+      doc.text('Licensed & Insured · Northeast Florida', margin, y + 44);
+      doc.text('(904) 896-9429  ·  floridaconcretealliance.com', margin, y + 57);
+
+      // ── PROPOSAL label (right)
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(24);
+      doc.setTextColor(...gold);
+      doc.text('PROPOSAL', W - margin, y + 28, { align: 'right' });
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(...gray);
+      if (proposalNum) doc.text('#' + proposalNum + ' · ' + proposalDate, W - margin, y + 44, { align: 'right' });
+      else doc.text(proposalDate, W - margin, y + 44, { align: 'right' });
+      if (validUntil) doc.text('Valid until: ' + validUntil, W - margin, y + 57, { align: 'right' });
+
+      y += 75;
+
+      // ── Divider
+      doc.setDrawColor(...gold);
+      doc.setLineWidth(2);
+      doc.line(margin, y, W - margin, y);
+      y += 20;
+
+      // ── Parties
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(...gold);
+      doc.text('PREPARED FOR', margin, y);
+      doc.text('PROJECT', W / 2 + 20, y);
+      y += 10;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.setTextColor(...black);
+      doc.text(clientName, margin, y);
+      doc.text(projectType, W / 2 + 20, y);
+      y += 14;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(...gray);
+      if (clientPhone) { doc.text(clientPhone, margin, y); y += 13; }
+      if (clientEmail) { doc.text(clientEmail, margin, y); y += 13; }
+      doc.text(projectAddress, margin, y);
+
+      let py = y - 27;
+      if (finishType) { doc.text('Finish: ' + finishType, W / 2 + 20, py); py += 13; }
+      if (startDate) { doc.text('Start: ' + startDate, W / 2 + 20, py); py += 13; }
+      if (endDate) { doc.text('Completion: ' + endDate, W / 2 + 20, py); }
+
+      y += 28;
+
+      // ── Scope
+      const scopeAuto = projectType !== 'Custom' && projectType !== '—' ? generateScope(projectType, finishType, startDate, endDate) : '';
+      const scopeFinal = scopeText || scopeAuto;
+      if (scopeFinal) {
+        doc.setFillColor(245, 245, 243);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.setTextColor(...gold);
+        doc.text('SCOPE OF WORK', margin, y);
+        y += 10;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(...black);
+        const wrapped = doc.splitTextToSize(scopeFinal, W - margin * 2);
+        doc.text(wrapped, margin, y);
+        y += wrapped.length * 13 + 16;
+      }
+
+      // ── Line items table
+      const tableRows = lines.filter(l => l.desc || l.price > 0).map(l => [
+        l.desc || '—',
+        String(l.qty),
+        fmt(l.price),
+        fmt(l.qty * l.price)
+      ]);
+
+      doc.autoTable({
+        startY: y,
+        head: [['Description', 'Qty', 'Unit Price', 'Amount']],
+        body: tableRows.length ? tableRows : [['No line items', '', '', '']],
+        margin: { left: margin, right: margin },
+        styles: { fontSize: 9, cellPadding: 7, textColor: black },
+        headStyles: { fillColor: black, textColor: [255,255,255], fontStyle: 'bold', fontSize: 8, letterSpacing: 1 },
+        alternateRowStyles: { fillColor: [250, 250, 248] },
+        columnStyles: { 1: { halign: 'center' }, 2: { halign: 'right' }, 3: { halign: 'right', fontStyle: 'bold' } },
+      });
+
+      y = doc.lastAutoTable.finalY + 14;
+
+      // ── Totals
+      const totWidth = 220;
+      const totX = W - margin - totWidth;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+
+      const addTotalRow = (label, val, isBold=false, isGold=false) => {
+        doc.setDrawColor(...lightGray);
+        doc.line(totX, y, W - margin, y);
+        y += 10;
+        doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+        doc.setFontSize(isBold ? 11 : 9);
+        doc.setTextColor(isGold ? gold[0] : black[0], isGold ? gold[1] : black[1], isGold ? gold[2] : black[2]);
+        doc.text(label, totX, y);
+        doc.text(val, W - margin, y, { align: 'right' });
+        y += 14;
+      };
+
+      addTotalRow('Subtotal', fmt(subtotal));
+      if (taxRate > 0) addTotalRow(`Tax (${taxRate}%)`, fmt(tax));
+      if (depositAmount) addTotalRow('Deposit Required', depositAmount);
+      addTotalRow('TOTAL', fmt(grand), true, true);
+      y += 8;
+
+      // ── Terms
+      if (termsText || notesText) {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.setTextColor(...gold);
+        doc.text('TERMS & CONDITIONS', margin, y);
+        y += 12;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(...gray);
+        const termsAll = (termsText || '') + (notesText ? '\n\nNotes: ' + notesText : '');
+        const tWrapped = doc.splitTextToSize(termsAll, W - margin * 2);
+        doc.text(tWrapped, margin, y);
+        y += tWrapped.length * 12 + 16;
+      }
+
+      // ── Signatures
+      if (y + 80 > 720) { doc.addPage(); y = margin; }
+      doc.setDrawColor(...lightGray);
+      doc.line(margin, y, W - margin, y);
+      y += 24;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(...gray);
+      doc.text('CONTRACTOR SIGNATURE', margin, y);
+      doc.text('CLIENT ACCEPTANCE', W / 2 + 20, y);
+      y += 36;
+      doc.setDrawColor(...black);
+      doc.line(margin, y, margin + 200, y);
+      doc.line(W / 2 + 20, y, W / 2 + 220, y);
+      y += 10;
+      doc.setFontSize(8);
+      doc.setTextColor(...gray);
+      doc.text('Florida Concrete Alliance · (904) 896-9429', margin, y);
+      doc.text('Signature & Date', W / 2 + 20, y);
+
+      // ── Footer
+      doc.setFillColor(...gold);
+      doc.rect(0, 762, W, 4, 'F');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(...gray);
+      doc.text('Florida Concrete Alliance · Licensed & Insured · Northeast Florida · (904) 896-9429 · floridaconcretealliance.com', W / 2, 755, { align: 'center' });
+
+      const filename = `FCA-Proposal-${clientName.replace(/\s+/g,'-')}-${v('proposalNum') || proposalDate}.pdf`;
+      doc.save(filename);
+    }
+
+    // ─── HELPERS ───
+    function v(id) { return document.getElementById(id)?.value?.trim() || ''; }
+    function fmt(n) { return '$' + (parseFloat(n)||0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function fmtDate(d) { if (!d) return ''; try { return new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); } catch { return d; } }
+    function esc(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // Init preview
+    updatePreview();
+  </script>
+</body>
+</html>

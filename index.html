@@ -96,6 +96,21 @@
       transition: color 0.2s;
     }
     .nav-phone:hover { color: var(--gold); }
+    .btn-tool {
+      background: transparent;
+      color: var(--gold);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      border-radius: 1px;
+      text-decoration: none;
+      border: 1px solid var(--gold);
+      transition: all 0.3s ease;
+    }
+    .btn-tool:hover { background: var(--gold-dim); }
     .btn-primary {
       background: var(--gold);
       color: var(--black);
@@ -272,7 +287,7 @@
       max-width: 1000px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 40px;
     }
     .stat-item { text-align: center; }
@@ -454,7 +469,7 @@
     .testimonials-section { background: var(--surface); }
     .testimonials-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 1px;
       background: var(--border-subtle);
       margin-top: 64px;
@@ -591,6 +606,90 @@
       font-size: 13px;
       line-height: 1.7;
       color: var(--text-muted);
+    }
+
+    /* ─── PROPOSAL TOOL SECTION ─── */
+    .proposal-section {
+      background: var(--black);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 100px 48px;
+    }
+    .proposal-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .proposal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      margin-bottom: 28px;
+    }
+    .proposal-badge span {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .proposal-title {
+      font-family: 'Cormorant Garant', serif;
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+    .proposal-title em { font-style: italic; color: var(--gold); }
+    .proposal-desc {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      max-width: 460px;
+    }
+    .proposal-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border-subtle);
+    }
+    .proposal-feature {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background 0.2s;
+    }
+    .proposal-feature:last-child { border-bottom: none; }
+    .proposal-feature:hover { background: var(--surface-2); }
+    .proposal-feature-icon { font-size: 20px; flex-shrink: 0; }
+    .proposal-feature-text { font-size: 14px; color: var(--cream-dim); line-height: 1.5; }
+    .proposal-feature-text strong {
+      display: block;
+      color: var(--cream);
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .proposal-cta-wrap {
+      margin-top: 36px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .proposal-inner { grid-template-columns: 1fr; gap: 48px; }
+      .proposal-section { padding: 80px 24px; }
     }
 
     /* ─── URGENCY STRIP ─── */
@@ -1050,7 +1149,7 @@
     </a>
     <div class="nav-ctas">
       <a href="tel:+19048969429" class="nav-phone">(904) 896-9429</a>
-      <a href="tel:+19048969429" class="btn-outline" style="display:none;" id="nav-call">Call Now</a>
+      <a href="#proposal-tool" class="btn-tool">Proposal Tool</a>
       <a href="#estimate" class="btn-primary">Free Estimate</a>
     </div>
   </nav>
@@ -1091,10 +1190,7 @@
         <span class="stat-number" data-count="10">0</span>
         <span class="stat-label">Years Experience</span>
       </div>
-      <div class="stat-item reveal reveal-delay-2">
-        <span class="stat-number" data-count="100">0</span>
-        <span class="stat-label">% Licensed &amp; Insured</span>
-      </div>
+
     </div>
   </div>
 
@@ -1279,6 +1375,53 @@
               <div class="craft-pillar-title">Fully Licensed &amp; Insured</div>
               <p class="craft-pillar-desc">Licensed by the state of Florida. Your property and investment are fully protected on every job we take.</p>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROPOSAL TOOL -->
+  <section class="proposal-section" id="proposal-tool">
+    <div class="proposal-inner">
+      <div>
+        <div class="reveal">
+          <div class="proposal-badge"><span>⚙️ Contractor Tools</span></div>
+        </div>
+        <h2 class="proposal-title reveal reveal-delay-1">Generate a<br><em>professional proposal</em><br>in minutes.</h2>
+        <p class="proposal-desc reveal reveal-delay-2">Built for FCA contractors. Input your project specs and get a clean, client-ready proposal PDF — pricing, scope, timeline, and terms included. No templates to fill out manually.</p>
+        <div class="proposal-cta-wrap reveal reveal-delay-3">
+          <a href="/proposal" class="btn-primary">Open Proposal Tool →</a>
+          <span style="font-size:12px; color:var(--text-muted); letter-spacing:1px;">Contractors only</span>
+        </div>
+      </div>
+      <div class="proposal-features reveal reveal-delay-1">
+        <div class="proposal-feature">
+          <span class="proposal-feature-icon">📋</span>
+          <div class="proposal-feature-text">
+            <strong>Auto-Generated Scope</strong>
+            Enter sq footage, job type, and specs — the tool writes the scope for you.
+          </div>
+        </div>
+        <div class="proposal-feature">
+          <span class="proposal-feature-icon">💰</span>
+          <div class="proposal-feature-text">
+            <strong>Pricing Calculator</strong>
+            Built-in material and labor pricing for Northeast Florida market rates.
+          </div>
+        </div>
+        <div class="proposal-feature">
+          <span class="proposal-feature-icon">📄</span>
+          <div class="proposal-feature-text">
+            <strong>PDF Export</strong>
+            Download a client-ready branded proposal in one click.
+          </div>
+        </div>
+        <div class="proposal-feature">
+          <span class="proposal-feature-icon">⚡</span>
+          <div class="proposal-feature-text">
+            <strong>Under 5 Minutes</strong>
+            From job details to finished proposal — faster than any manual process.
           </div>
         </div>
       </div>
